@@ -1,0 +1,880 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Time With God Bible reading plans and devotional journal.">
+<meta name="theme-color" content="#f5f3ee">
+<link rel="icon" href="desk-favicon.svg" type="image/svg+xml">
+<title>Time With God</title>
+<style>
+:root {
+  color-scheme: light;
+  --canvas: #f7f7f4;
+  --paper: #fff;
+  --ink: #202921;
+  --muted: #525e55;
+  --line: #d9ded8;
+  --accent: #294735;
+  --wash: #eaf0eb;
+  --gold: #79520b;
+  --rose: #963547;
+  --blue: #2e5092;
+  --green: #1d674c;
+  font: 100%/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; min-height: 100vh; color: var(--ink); background: var(--canvas); }
+h1, h2, p { margin: 0; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+a { color: var(--accent); text-underline-offset: .22em; }
+header { background: var(--paper); border-bottom: 1px solid var(--line); }
+.top {
+  width: min(100% - 2rem, 58rem);
+  min-height: 4rem;
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: .25rem 1rem;
+}
+.wordmark {
+  border: 0;
+  padding: .55rem 0;
+  background: transparent;
+  font: 1.3rem/1.15 Georgia, serif;
+  white-space: nowrap;
+}
+.tabs { display: flex; gap: .15rem; align-self: stretch; }
+.tabs button {
+  padding: .6rem .7rem;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  min-height: 2.75rem;
+  font-size: .9rem;
+}
+.tabs button:hover, .tabs [aria-current="page"] { color: var(--ink); border-bottom-color: var(--accent); }
+main { width: min(100% - 2rem, 52rem); margin: auto; padding: clamp(1.7rem, 5vw, 3.75rem) 0 4rem; }
+.page-head { margin-bottom: 1.45rem; }
+h1 { font: clamp(2.3rem, 6vw, 3.65rem)/1.05 Georgia, serif; letter-spacing: -.035em; margin: .24rem 0 .45rem; }
+h2 { font: clamp(1.35rem, 4vw, 1.75rem)/1.22 Georgia, serif; letter-spacing: -.02em; }
+.label, .metadata { color: var(--muted); font-size: .88rem; }
+.label { font-weight: 650; }
+.muted { color: var(--muted); }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .9rem; }
+.card, .hero, .write { border: 1px solid var(--line); border-radius: .8rem; background: var(--paper); padding: clamp(1rem, 3vw, 1.5rem); min-width: 0; }
+.card h2, .hero h2, .write h2 { margin: .25rem 0 .45rem; }
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(9rem, .35fr); gap: 1rem; align-items: end; margin-bottom: .9rem; }
+.progressline { height: .28rem; background: var(--line); border-radius: 2rem; margin-top: .5rem; overflow: hidden; }
+.progressline i { display: block; background: var(--accent); height: 100%; }
+.actions, .ref-tabs, .devotion-steps { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem; }
+.actions { margin-top: 1rem; }
+.button, .soft, .link-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: .45rem;
+  text-decoration: none;
+  padding: .46rem .8rem;
+  min-height: 2.75rem;
+  font-size: .9rem;
+  font-weight: 620;
+}
+.button { background: var(--accent); color: #fff; }
+.button:hover { background: #173021; }
+.soft { color: var(--accent); background: var(--paper); border-color: var(--line); }
+.soft:hover, .link-button:hover { background: var(--wash); }
+.link-button { background: transparent; color: var(--accent); }
+.field { border: 1px solid #bdc9bf; border-radius: .42rem; padding: .55rem .65rem; min-width: 0; background: var(--paper); }
+select.field { appearance: none; padding-right: 2rem; background: var(--paper) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='m4 6 4 4 4-4' fill='none' stroke='%23294735' stroke-width='1.5'/%3E%3C/svg%3E") right .55rem center / 1rem no-repeat; }
+.full { width: 100%; }
+.stack { margin-top: 1rem; display: grid; gap: .35rem; }
+.stack label, label.stack { font-size: .93rem; font-weight: 620; }
+textarea { resize: vertical; min-height: 8rem; }
+dialog {
+  color-scheme: light;
+  width: min(41rem, calc(100% - 1.25rem));
+  max-height: 89vh;
+  padding: clamp(1rem, 3vw, 1.5rem);
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: .8rem;
+  color: var(--ink);
+  background: #fff;
+}
+dialog::backdrop { background: rgba(25, 32, 27, .42); }
+.dialog-title { display: flex; justify-content: space-between; align-items: flex-start; gap: .7rem; margin-bottom: .6rem; }
+.dialog-title h2 { font-size: clamp(1.4rem, 5vw, 2rem); }
+.icon-close { flex: none; border: 1px solid var(--line); border-radius: 50%; width: 2.4rem; height: 2.4rem; background: var(--paper); font-size: 1.25rem; line-height: 1; }
+.icon-close:hover { background: var(--wash); }
+.dialog-actions { display: flex; align-items: end; gap: .55rem; flex-wrap: wrap; }
+.plan-toolbar { margin: 1rem 0 .3rem; }
+.plan-toolbar label { display: flex; align-items: center; flex-wrap: wrap; gap: .5rem; }
+.plan-toolbar select { max-width: 100%; }
+.plan-row { display: grid; grid-template-columns: 6rem minmax(0, 1fr) auto; align-items: center; gap: .45rem; padding: .45rem 0; border-top: 1px solid var(--line); }
+.plan-row .link-button { padding-inline: .35rem; }
+.reader { max-width: 41rem; margin: auto; }
+.reader-top { padding-bottom: .8rem; border-bottom: 1px solid var(--line); }
+.ref-tabs, .devotion-steps { margin: .75rem 0; }
+.ref-tabs button[aria-pressed=true], .devotion-steps button[aria-current=step] { background: var(--wash); border-color: var(--accent); }
+.verses { margin-top: 1rem; }
+.verse { display: grid; grid-template-columns: 1.5rem minmax(0, 1fr); gap: .35rem; align-items: baseline; padding: .42rem; border-radius: .35rem; cursor: pointer; }
+.verse:hover, .verse[aria-pressed=true] { background: var(--wash); }
+.verse .number { color: var(--muted); font-size: .82rem; }
+.verse .line { font: clamp(1.08rem, 3.5vw, 1.28rem)/1.65 Georgia, serif; }
+.verse .line.marked { text-decoration: underline; text-decoration-color: var(--mark-color); text-underline-offset: .22em; }
+.reader-bottom { border-top: 1px solid var(--line); margin-top: 1rem; padding-top: .85rem; }
+.notice, .summary { border: 1px solid var(--line); border-radius: .5rem; background: var(--paper); padding: .8rem; margin-top: .8rem; }
+.summary { white-space: pre-wrap; overflow-wrap: anywhere; font-family: Georgia, serif; }
+.write { margin-top: .85rem; }
+.write[data-tone] { border-top: .22rem solid var(--tone); background: var(--tint); }
+.write[data-tone="wait"] { --tone: #637a62; --tint: #f8faf7; }
+.write[data-tone="w"] { --tone: var(--gold); --tint: #fff9ed; }
+.write[data-tone="o"] { --tone: var(--rose); --tint: #fff5f6; }
+.write[data-tone="r"] { --tone: var(--blue); --tint: #f3f7ff; }
+.write[data-tone="d"], .write[data-tone="world"] { --tone: var(--green); --tint: #f1f8f3; }
+.symbol { display: inline-grid; place-items: center; min-width: 1.65rem; min-height: 1.65rem; margin-right: .42rem; border: 1px solid currentColor; border-radius: 50%; color: var(--mark-color); font: 700 .85rem/1 -apple-system, sans-serif; vertical-align: .15em; }
+.quote { border-left: 2px solid var(--tone, var(--line)); margin: 0 0 .85rem; padding-left: .7rem; color: var(--muted); font: 1.05rem/1.5 Georgia, serif; }
+.wait-tools { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: .7rem; margin-top: .9rem; }
+.wheel { display: grid; place-items: center; width: clamp(4rem, 16vw, 5.6rem); aspect-ratio: 1; border-radius: 50%; background: conic-gradient(#eeb3ac 0 16%,white 16% 17%,#e8bf9c 17% 32%,white 32% 33%,#e8ce90 33% 49%,white 49% 50%,#a7cbb5 50% 66%,white 66% 67%,#a6bfe6 67% 82%,white 82% 83%,#c9bad9 83% 99%,white 99%); }
+.wheel span { display: grid; place-items: center; width: 58%; aspect-ratio: 1; border-radius: 50%; background: var(--paper); color: var(--muted); font-size: clamp(.63rem, 2.3vw, .75rem); }
+.feelings, .share-options { display: flex; flex-wrap: wrap; gap: .35rem; }
+.feelings + .feelings:not(:empty), .share-options { margin-top: .55rem; }
+.feeling { border-radius: 2rem; padding-inline: .65rem; }
+.feeling[aria-pressed=true] { background: var(--wash); border-color: var(--accent); }
+.share-options label { display: inline-flex; align-items: center; gap: .3rem; padding: .15rem .25rem; }
+.checkbox { accent-color: var(--accent); }
+.status { position: fixed; inset: auto auto 1rem 50%; transform: translateX(-50%); z-index: 2; max-width: 90vw; width: max-content; border-radius: .4rem; padding: .6rem .85rem; background: var(--ink); color: #fff; font-size: .9rem; }
+@media (max-width: 42rem) {
+  .grid, .hero { grid-template-columns: minmax(0, 1fr); }
+  .plan-row { grid-template-columns: 5rem minmax(0, 1fr) auto; }
+}
+@media (max-width: 23rem) {
+  .top { column-gap: .4rem; }
+  .tabs button { padding-inline: .38rem; }
+}
+</style>
+<link rel="stylesheet" href="scripture-desk.css">
+</head>
+<body>
+<div class="test-notice"><span>This is a test site. We’d love your feedback.</span><button type="button" id="feedbackButton">Send feedback</button></div>
+<header><div class="top">
+<button class="wordmark" data-view="today"><span class="brand-mark" aria-hidden="true"><svg class="icon"><use href="desk-icons.svg#brand"></use></svg></span>Time With God</button>
+<nav class="tabs" aria-label="Main navigation"><button data-view="today">Today</button><button data-view="plans">Plans</button><button data-view="journal">Journal</button><button data-view="guide">How to Start</button></nav>
+</div></header>
+<main id="main"></main>
+<dialog id="dialog" aria-labelledby="dialogTitle"><div class="dialog-title"><h2 id="dialogTitle"></h2><button class="icon-close" aria-label="Close" id="closeDialog">×</button></div><div id="dialogBody"></div></dialog>
+<p class="status" id="status" role="status" hidden></p>
+<script type="application/json" id="printedPlan">[{"original":"2025-01-01","refs":["Genesis 1","Matthew 1"]},{"original":"2025-01-02","refs":["Genesis 2","Matthew 2"]},{"original":"2025-01-03","refs":["Genesis 3","Matthew 3"]},{"original":"2025-01-04","refs":["Genesis 4","Psalms 1"]},{"original":"2025-01-05","refs":["Genesis 5","Psalms 2"]},{"original":"2025-01-06","refs":["Genesis 6","Matthew 4"]},{"original":"2025-01-07","refs":["Genesis 7","Matthew 5"]},{"original":"2025-01-08","refs":["Genesis 8","Matthew 6"]},{"original":"2025-01-09","refs":["Genesis 9","Matthew 7"]},{"original":"2025-01-10","refs":["Genesis 10","Matthew 8"]},{"original":"2025-01-11","refs":["Genesis 11","Psalms 3"]},{"original":"2025-01-12","refs":["Genesis 12","Psalms 4"]},{"original":"2025-01-13","refs":["Genesis 13","Matthew 9"]},{"original":"2025-01-14","refs":["Genesis 14","Matthew 10"]},{"original":"2025-01-15","refs":["Genesis 15","Matthew 11"]},{"original":"2025-01-16","refs":["Genesis 16","Matthew 12"]},{"original":"2025-01-17","refs":["Genesis 17","Matthew 13"]},{"original":"2025-01-18","refs":["Genesis 18","Psalms 5"]},{"original":"2025-01-19","refs":["Genesis 19","Psalms 6"]},{"original":"2025-01-20","refs":["Genesis 20","Matthew 14"]},{"original":"2025-01-21","refs":["Genesis 21","Matthew 15"]},{"original":"2025-01-22","refs":["Genesis 22","Matthew 16"]},{"original":"2025-01-23","refs":["Genesis 23","Matthew 17"]},{"original":"2025-01-24","refs":["Genesis 24","Matthew 18"]},{"original":"2025-01-25","refs":[]},{"original":"2025-01-26","refs":["Genesis 25","Psalms 7"]},{"original":"2025-01-27","refs":["Genesis 26","Matthew 19"]},{"original":"2025-01-28","refs":["Genesis 27","Matthew 20"]},{"original":"2025-01-29","refs":["Genesis 28","Matthew 21"]},{"original":"2025-01-30","refs":["Genesis 29","Matthew 22"]},{"original":"2025-01-31","refs":["Genesis 30","Matthew 23"]},{"original":"2025-02-01","refs":["Genesis 31","Psalms 8"]},{"original":"2025-02-02","refs":["Genesis 32","Psalms 9"]},{"original":"2025-02-03","refs":["Genesis 33","Matthew 24"]},{"original":"2025-02-04","refs":["Genesis 34","Matthew 25"]},{"original":"2025-02-05","refs":["Genesis 35","Matthew 26"]},{"original":"2025-02-06","refs":["Genesis 36","Matthew 27"]},{"original":"2025-02-07","refs":["Genesis 37","Matthew 28"]},{"original":"2025-02-08","refs":["Genesis 38","Psalms 10"]},{"original":"2025-02-09","refs":["Genesis 39","Psalms 11"]},{"original":"2025-02-10","refs":["Genesis 40","Mark 1"]},{"original":"2025-02-11","refs":["Genesis 41","Mark 2"]},{"original":"2025-02-12","refs":["Genesis 42","Mark 3"]},{"original":"2025-02-13","refs":["Genesis 43","Mark 4"]},{"original":"2025-02-14","refs":["Genesis 44","Mark 5"]},{"original":"2025-02-15","refs":["Genesis 45","Psalms 12"]},{"original":"2025-02-16","refs":["Genesis 46","Psalms 13"]},{"original":"2025-02-17","refs":["Genesis 47","Mark 6"]},{"original":"2025-02-18","refs":["Genesis 48","Mark 7"]},{"original":"2025-02-19","refs":["Genesis 49","Mark 8"]},{"original":"2025-02-20","refs":["Genesis 50","Mark 9"]},{"original":"2025-02-21","refs":["Exodus 1","Mark 10"]},{"original":"2025-02-22","refs":[]},{"original":"2025-02-23","refs":["Exodus 2","Psalms 14","Psalms 15"]},{"original":"2025-02-24","refs":["Exodus 3","Mark 11"]},{"original":"2025-02-25","refs":["Exodus 4","Mark 12"]},{"original":"2025-02-26","refs":["Exodus 5","Mark 13"]},{"original":"2025-02-27","refs":["Exodus 6","Mark 14"]},{"original":"2025-02-28","refs":["Exodus 7","Mark 15"]},{"original":"2025-03-01","refs":["Exodus 8","Psalms 16"]},{"original":"2025-03-02","refs":["Exodus 9","Psalms 17"]},{"original":"2025-03-03","refs":["Exodus 10","Exodus 11","Mark 16"]},{"original":"2025-03-04","refs":["Exodus 12","Luke 1"]},{"original":"2025-03-05","refs":["Exodus 13","Luke 2"]},{"original":"2025-03-06","refs":["Exodus 14","Luke 3"]},{"original":"2025-03-07","refs":["Exodus 15","Luke 4"]},{"original":"2025-03-08","refs":["Exodus 16","Psalms 18"]},{"original":"2025-03-09","refs":["Exodus 17","Psalms 19"]},{"original":"2025-03-10","refs":["Exodus 18","Luke 5"]},{"original":"2025-03-11","refs":["Exodus 19","Luke 6"]},{"original":"2025-03-12","refs":["Exodus 20","Luke 7"]},{"original":"2025-03-13","refs":["Exodus 21","Luke 8"]},{"original":"2025-03-14","refs":["Exodus 22","Luke 9"]},{"original":"2025-03-15","refs":["Exodus 23","Psalms 20"]},{"original":"2025-03-16","refs":["Exodus 24","Psalms 21"]},{"original":"2025-03-17","refs":["Exodus 25","Luke 10"]},{"original":"2025-03-18","refs":["Exodus 26","Luke 11"]},{"original":"2025-03-19","refs":["Exodus 27","Luke 12"]},{"original":"2025-03-20","refs":["Exodus 28","Luke 13"]},{"original":"2025-03-21","refs":["Exodus 29","Luke 14"]},{"original":"2025-03-22","refs":["Exodus 30","Psalms 22"]},{"original":"2025-03-23","refs":["Exodus 31","Psalms 23"]},{"original":"2025-03-24","refs":["Exodus 32","Luke 15"]},{"original":"2025-03-25","refs":["Exodus 33","Luke 16"]},{"original":"2025-03-26","refs":["Exodus 34","Luke 17"]},{"original":"2025-03-27","refs":["Exodus 35","Luke 18"]},{"original":"2025-03-28","refs":["Exodus 36","Luke 19"]},{"original":"2025-03-29","refs":[]},{"original":"2025-03-30","refs":["Exodus 37","Psalms 24"]},{"original":"2025-03-31","refs":["Exodus 38","Luke 20"]},{"original":"2025-04-01","refs":["Exodus 39","Luke 21"]},{"original":"2025-04-02","refs":["Exodus 40","Luke 22"]},{"original":"2025-04-03","refs":["Leviticus 1","Luke 23"]},{"original":"2025-04-04","refs":["Leviticus 2","Luke 24"]},{"original":"2025-04-05","refs":["Leviticus 3","Psalms 25"]},{"original":"2025-04-06","refs":["Leviticus 4","Psalms 26"]},{"original":"2025-04-07","refs":["Leviticus 5","John 1"]},{"original":"2025-04-08","refs":["Leviticus 6","John 2"]},{"original":"2025-04-09","refs":["Leviticus 7","John 3"]},{"original":"2025-04-10","refs":["Leviticus 8","John 4"]},{"original":"2025-04-11","refs":["Leviticus 9","John 5"]},{"original":"2025-04-12","refs":["Leviticus 10","Psalms 27"]},{"original":"2025-04-13","refs":["Leviticus 11","Leviticus 12","Psalms 28","Psalms 29"]},{"original":"2025-04-14","refs":["Leviticus 13","John 6"]},{"original":"2025-04-15","refs":["Leviticus 14","John 7"]},{"original":"2025-04-16","refs":["Leviticus 15","John 8"]},{"original":"2025-04-17","refs":["Leviticus 16","John 9"]},{"original":"2025-04-18","refs":["Leviticus 17","John 10"]},{"original":"2025-04-19","refs":["Leviticus 18","Psalms 30"]},{"original":"2025-04-20","refs":["Leviticus 19","Psalms 31"]},{"original":"2025-04-21","refs":["Leviticus 20","John 11"]},{"original":"2025-04-22","refs":["Leviticus 21","John 12"]},{"original":"2025-04-23","refs":["Leviticus 22","John 13"]},{"original":"2025-04-24","refs":["Leviticus 23","John 14"]},{"original":"2025-04-25","refs":["Leviticus 24","John 15","John 16"]},{"original":"2025-04-26","refs":[]},{"original":"2025-04-27","refs":["Leviticus 25","Psalms 32"]},{"original":"2025-04-28","refs":["Leviticus 26","John 17"]},{"original":"2025-04-29","refs":["Leviticus 27","John 18"]},{"original":"2025-04-30","refs":["Numbers 1","John 19"]},{"original":"2025-05-01","refs":["Numbers 2","John 20"]},{"original":"2025-05-02","refs":["Numbers 3","John 21"]},{"original":"2025-05-03","refs":["Numbers 4","Psalms 33"]},{"original":"2025-05-04","refs":["Numbers 5","Psalms 34"]},{"original":"2025-05-05","refs":["Numbers 6","Acts 1"]},{"original":"2025-05-06","refs":["Numbers 7","Acts 2"]},{"original":"2025-05-07","refs":["Numbers 8","Acts 3"]},{"original":"2025-05-08","refs":["Numbers 9","Acts 4"]},{"original":"2025-05-09","refs":["Numbers 10","Acts 5"]},{"original":"2025-05-10","refs":["Numbers 11","Psalms 35"]},{"original":"2025-05-11","refs":["Numbers 12","Psalms 36"]},{"original":"2025-05-12","refs":["Numbers 13","Acts 6"]},{"original":"2025-05-13","refs":["Numbers 14","Acts 7"]},{"original":"2025-05-14","refs":["Numbers 15","Acts 8"]},{"original":"2025-05-15","refs":["Numbers 16","Acts 9"]},{"original":"2025-05-16","refs":["Numbers 17","Acts 10"]},{"original":"2025-05-17","refs":["Numbers 18","Psalms 37"]},{"original":"2025-05-18","refs":["Numbers 19","Psalms 38"]},{"original":"2025-05-19","refs":["Numbers 20","Acts 11"]},{"original":"2025-05-20","refs":["Numbers 21","Acts 12"]},{"original":"2025-05-21","refs":["Numbers 22","Acts 13"]},{"original":"2025-05-22","refs":["Numbers 23","Acts 14"]},{"original":"2025-05-23","refs":["Numbers 24","Acts 15"]},{"original":"2025-05-24","refs":[]},{"original":"2025-05-25","refs":["Numbers 25","Psalms 39"]},{"original":"2025-05-26","refs":["Numbers 26","Acts 16"]},{"original":"2025-05-27","refs":["Numbers 27","Acts 17"]},{"original":"2025-05-28","refs":["Numbers 28","Acts 18"]},{"original":"2025-05-29","refs":["Numbers 29","Acts 19"]},{"original":"2025-05-30","refs":["Numbers 30","Acts 20"]},{"original":"2025-05-31","refs":["Numbers 31","Psalms 40"]},{"original":"2025-06-01","refs":["Numbers 32","Psalms 41"]},{"original":"2025-06-02","refs":["Numbers 33","Acts 21"]},{"original":"2025-06-03","refs":["Numbers 34","Acts 22"]},{"original":"2025-06-04","refs":["Numbers 35","Acts 23"]},{"original":"2025-06-05","refs":["Numbers 36","Acts 24"]},{"original":"2025-06-06","refs":["Deuteronomy 1","Acts 25"]},{"original":"2025-06-07","refs":["Deuteronomy 2","Psalms 42"]},{"original":"2025-06-08","refs":["Deuteronomy 3","Psalms 43"]},{"original":"2025-06-09","refs":["Deuteronomy 4","Acts 26"]},{"original":"2025-06-10","refs":["Deuteronomy 5","Acts 27"]},{"original":"2025-06-11","refs":["Deuteronomy 6","Acts 28"]},{"original":"2025-06-12","refs":["Deuteronomy 7","Romans 1"]},{"original":"2025-06-13","refs":["Deuteronomy 8","Romans 2"]},{"original":"2025-06-14","refs":["Deuteronomy 9","Psalms 44"]},{"original":"2025-06-15","refs":["Deuteronomy 10","Psalms 45"]},{"original":"2025-06-16","refs":["Deuteronomy 11","Romans 3"]},{"original":"2025-06-17","refs":["Deuteronomy 12","Romans 4"]},{"original":"2025-06-18","refs":["Deuteronomy 13","Romans 5"]},{"original":"2025-06-19","refs":["Deuteronomy 14","Romans 6"]},{"original":"2025-06-20","refs":["Deuteronomy 15","Romans 7"]},{"original":"2025-06-21","refs":["Deuteronomy 16","Psalms 46"]},{"original":"2025-06-22","refs":["Deuteronomy 17","Psalms 47"]},{"original":"2025-06-23","refs":["Deuteronomy 18","Romans 8"]},{"original":"2025-06-24","refs":["Deuteronomy 19","Romans 9"]},{"original":"2025-06-25","refs":["Deuteronomy 20","Romans 10"]},{"original":"2025-06-26","refs":["Deuteronomy 21","Romans 11"]},{"original":"2025-06-27","refs":["Deuteronomy 22","Romans 12"]},{"original":"2025-06-28","refs":[]},{"original":"2025-06-29","refs":["Deuteronomy 23","Psalms 48"]},{"original":"2025-06-30","refs":["Deuteronomy 24","Romans 13"]},{"original":"2025-07-01","refs":["Deuteronomy 25","Romans 14"]},{"original":"2025-07-02","refs":["Deuteronomy 26","Romans 15","Romans 16"]},{"original":"2025-07-03","refs":["Deuteronomy 27","1 Corinthians 1"]},{"original":"2025-07-04","refs":["Deuteronomy 28","1 Corinthians 2"]},{"original":"2025-07-05","refs":["Deuteronomy 29","Psalms 49"]},{"original":"2025-07-06","refs":["Deuteronomy 30","Psalms 50"]},{"original":"2025-07-07","refs":["Deuteronomy 31","1 Corinthians 3"]},{"original":"2025-07-08","refs":["Deuteronomy 32","1 Corinthians 4"]},{"original":"2025-07-09","refs":["Deuteronomy 33","1 Corinthians 5"]},{"original":"2025-07-10","refs":["Deuteronomy 34","1 Corinthians 6"]},{"original":"2025-07-11","refs":["Joshua 1","1 Corinthians 7"]},{"original":"2025-07-12","refs":["Joshua 2","Psalms 51"]},{"original":"2025-07-13","refs":["Joshua 3","Psalms 52"]},{"original":"2025-07-14","refs":["Joshua 4","1 Corinthians 8"]},{"original":"2025-07-15","refs":["Joshua 5","1 Corinthians 9"]},{"original":"2025-07-16","refs":["Joshua 6","1 Corinthians 10"]},{"original":"2025-07-17","refs":["Joshua 7","1 Corinthians 11"]},{"original":"2025-07-18","refs":["Joshua 8","1 Corinthians 12"]},{"original":"2025-07-19","refs":["Joshua 9","Psalms 53"]},{"original":"2025-07-20","refs":["Joshua 10","Psalms 54"]},{"original":"2025-07-21","refs":["Joshua 11","1 Corinthians 13"]},{"original":"2025-07-22","refs":["Joshua 12","1 Corinthians 14"]},{"original":"2025-07-23","refs":["Joshua 13","1 Corinthians 15"]},{"original":"2025-07-24","refs":["Joshua 14","1 Corinthians 16"]},{"original":"2025-07-25","refs":["Joshua 15","2 Corinthians 1"]},{"original":"2025-07-26","refs":[]},{"original":"2025-07-27","refs":["Joshua 16","Joshua 17","Psalms 55"]},{"original":"2025-07-28","refs":["Joshua 18","2 Corinthians 2"]},{"original":"2025-07-29","refs":["Joshua 19","2 Corinthians 3","2 Corinthians 4"]},{"original":"2025-07-30","refs":["Joshua 20","2 Corinthians 5"]},{"original":"2025-07-31","refs":["Joshua 21","2 Corinthians 6"]},{"original":"2025-08-01","refs":["Joshua 22","2 Corinthians 7"]},{"original":"2025-08-02","refs":["Joshua 23","Psalms 56"]},{"original":"2025-08-03","refs":["Joshua 24","Psalms 57"]},{"original":"2025-08-04","refs":["Judges 1","2 Corinthians 8"]},{"original":"2025-08-05","refs":["Judges 2","2 Corinthians 9"]},{"original":"2025-08-06","refs":["Judges 3","2 Corinthians 10"]},{"original":"2025-08-07","refs":["Judges 4","2 Corinthians 11"]},{"original":"2025-08-08","refs":["Judges 5","2 Corinthians 12"]},{"original":"2025-08-09","refs":["Judges 6","Psalms 58"]},{"original":"2025-08-10","refs":["Judges 7","Psalms 59"]},{"original":"2025-08-11","refs":["Judges 8","2 Corinthians 13"]},{"original":"2025-08-12","refs":["Judges 9","Galatians 1"]},{"original":"2025-08-13","refs":["Judges 10","Galatians 2"]},{"original":"2025-08-14","refs":["Judges 11","Galatians 3"]},{"original":"2025-08-15","refs":["Judges 12","Galatians 4"]},{"original":"2025-08-16","refs":["Judges 13","Psalms 60"]},{"original":"2025-08-17","refs":["Judges 14","Psalms 61"]},{"original":"2025-08-18","refs":["Judges 15","Galatians 5"]},{"original":"2025-08-19","refs":["Judges 16","Galatians 6"]},{"original":"2025-08-20","refs":["Judges 17","Judges 18","Ephesians 1"]},{"original":"2025-08-21","refs":["Judges 19","Ephesians 2"]},{"original":"2025-08-22","refs":["Judges 20","Ephesians 3"]},{"original":"2025-08-23","refs":["Judges 21","Psalms 62"]},{"original":"2025-08-24","refs":["Ruth 1","Psalms 63"]},{"original":"2025-08-25","refs":["Ruth 2","Ephesians 4"]},{"original":"2025-08-26","refs":["Ruth 3","Ephesians 5"]},{"original":"2025-08-27","refs":["Ruth 4","Ephesians 6"]},{"original":"2025-08-28","refs":["1 Samuel 1","Philippians 1"]},{"original":"2025-08-29","refs":["1 Samuel 2","Philippians 2"]},{"original":"2025-08-30","refs":[]},{"original":"2025-08-31","refs":["1 Samuel 3","Psalms 64"]},{"original":"2025-09-01","refs":["1 Samuel 4","Philippians 3"]},{"original":"2025-09-02","refs":["1 Samuel 5","1 Samuel 6","Philippians 4"]},{"original":"2025-09-03","refs":["1 Samuel 7","Colossians 1"]},{"original":"2025-09-04","refs":["1 Samuel 8","Colossians 2"]},{"original":"2025-09-05","refs":["1 Samuel 9","Colossians 3"]},{"original":"2025-09-06","refs":["1 Samuel 10","Psalms 65"]},{"original":"2025-09-07","refs":["1 Samuel 11","Psalms 66"]},{"original":"2025-09-08","refs":["1 Samuel 12","Colossians 4"]},{"original":"2025-09-09","refs":["1 Samuel 13","1 Thessalonians 1","1 Thessalonians 2"]},{"original":"2025-09-10","refs":["1 Samuel 14","1 Thessalonians 3"]},{"original":"2025-09-11","refs":["1 Samuel 15","1 Thessalonians 4"]},{"original":"2025-09-12","refs":["1 Samuel 16","1 Thessalonians 5"]},{"original":"2025-09-13","refs":["1 Samuel 17","Psalms 67"]},{"original":"2025-09-14","refs":["1 Samuel 18","Psalms 68"]},{"original":"2025-09-15","refs":["1 Samuel 19","2 Thessalonians 1","2 Thessalonians 2"]},{"original":"2025-09-16","refs":["1 Samuel 20","2 Thessalonians 3"]},{"original":"2025-09-17","refs":["1 Samuel 21","1 Timothy 1"]},{"original":"2025-09-18","refs":["1 Samuel 22","1 Timothy 2"]},{"original":"2025-09-19","refs":["1 Samuel 23","1 Timothy 3"]},{"original":"2025-09-20","refs":["1 Samuel 24","Psalms 69"]},{"original":"2025-09-21","refs":["1 Samuel 25","Psalms 70"]},{"original":"2025-09-22","refs":["1 Samuel 26","1 Samuel 27","1 Timothy 4"]},{"original":"2025-09-23","refs":["1 Samuel 28","1 Timothy 5"]},{"original":"2025-09-24","refs":["1 Samuel 29","1 Timothy 6"]},{"original":"2025-09-25","refs":["1 Samuel 30","2 Timothy 1"]},{"original":"2025-09-26","refs":["1 Samuel 31","2 Timothy 2"]},{"original":"2025-09-27","refs":[]},{"original":"2025-09-28","refs":["2 Samuel 1","Psalms 71"]},{"original":"2025-09-29","refs":["2 Samuel 2","2 Timothy 3"]},{"original":"2025-09-30","refs":["2 Samuel 3","2 Timothy 4"]},{"original":"2025-10-01","refs":["2 Samuel 4","2 Samuel 5","Titus 1"]},{"original":"2025-10-02","refs":["2 Samuel 6","Titus 2"]},{"original":"2025-10-03","refs":["2 Samuel 7","Titus 3"]},{"original":"2025-10-04","refs":["2 Samuel 8","2 Samuel 9","Psalms 72"]},{"original":"2025-10-05","refs":["2 Samuel 10","Psalms 73"]},{"original":"2025-10-06","refs":["2 Samuel 11","Philemon 1"]},{"original":"2025-10-07","refs":["2 Samuel 12","Hebrews 1"]},{"original":"2025-10-08","refs":["2 Samuel 13","Hebrews 2"]},{"original":"2025-10-09","refs":["2 Samuel 14","Hebrews 3"]},{"original":"2025-10-10","refs":["2 Samuel 15","Hebrews 4","Hebrews 5"]},{"original":"2025-10-11","refs":["2 Samuel 16","Psalms 74"]},{"original":"2025-10-12","refs":["2 Samuel 17","Psalms 75"]},{"original":"2025-10-13","refs":["2 Samuel 18","Hebrews 6"]},{"original":"2025-10-14","refs":["2 Samuel 19","Hebrews 7"]},{"original":"2025-10-15","refs":["2 Samuel 20","Hebrews 8"]},{"original":"2025-10-16","refs":["2 Samuel 21","Hebrews 9"]},{"original":"2025-10-17","refs":["2 Samuel 22","Hebrews 10"]},{"original":"2025-10-18","refs":["2 Samuel 23","Psalms 76"]},{"original":"2025-10-19","refs":["2 Samuel 24","Psalms 77"]},{"original":"2025-10-20","refs":["1 Kings 1","Hebrews 11"]},{"original":"2025-10-21","refs":["1 Kings 2","Hebrews 12"]},{"original":"2025-10-22","refs":["1 Kings 3","Hebrews 13"]},{"original":"2025-10-23","refs":["1 Kings 4","James 1"]},{"original":"2025-10-24","refs":["1 Kings 5","James 2"]},{"original":"2025-10-25","refs":[]},{"original":"2025-10-26","refs":["1 Kings 6","Psalms 78"]},{"original":"2025-10-27","refs":["1 Kings 7","James 3"]},{"original":"2025-10-28","refs":["1 Kings 8","James 4"]},{"original":"2025-10-29","refs":["1 Kings 9","James 5"]},{"original":"2025-10-30","refs":["1 Kings 10","1 Peter 1"]},{"original":"2025-10-31","refs":["1 Kings 11","1 Peter 2"]},{"original":"2025-11-01","refs":["1 Kings 12","Psalms 79"]},{"original":"2025-11-02","refs":["1 Kings 13","Psalms 80"]},{"original":"2025-11-03","refs":["1 Kings 14","1 Peter 3"]},{"original":"2025-11-04","refs":["1 Kings 15","1 Peter 4"]},{"original":"2025-11-05","refs":["1 Kings 16","1 Peter 5"]},{"original":"2025-11-06","refs":["1 Kings 17","2 Peter 1"]},{"original":"2025-11-07","refs":["1 Kings 18","2 Peter 2"]},{"original":"2025-11-08","refs":["1 Kings 19","Psalms 81"]},{"original":"2025-11-09","refs":["1 Kings 20","Psalms 82"]},{"original":"2025-11-10","refs":["1 Kings 21","2 Peter 3"]},{"original":"2025-11-11","refs":["1 Kings 22","1 John 1","1 John 2"]},{"original":"2025-11-12","refs":["2 Kings 1","1 John 3"]},{"original":"2025-11-13","refs":["2 Kings 2","1 John 4","1 John 5"]},{"original":"2025-11-14","refs":["2 Kings 3","2 John 1"]},{"original":"2025-11-15","refs":["2 Kings 4","Psalms 83"]},{"original":"2025-11-16","refs":["2 Kings 5","Psalms 84"]},{"original":"2025-11-17","refs":["2 Kings 6","3 John 1"]},{"original":"2025-11-18","refs":["2 Kings 7","Jude 1"]},{"original":"2025-11-19","refs":["2 Kings 8","Revelation 1"]},{"original":"2025-11-20","refs":["2 Kings 9","Revelation 2"]},{"original":"2025-11-21","refs":["2 Kings 10","Revelation 3"]},{"original":"2025-11-22","refs":["2 Kings 11","Psalms 85"]},{"original":"2025-11-23","refs":["2 Kings 12","Psalms 86"]},{"original":"2025-11-24","refs":["2 Kings 13","Revelation 4","Revelation 5"]},{"original":"2025-11-25","refs":["2 Kings 14","Revelation 6"]},{"original":"2025-11-26","refs":["2 Kings 15","Revelation 7"]},{"original":"2025-11-27","refs":["2 Kings 16","Revelation 8","Revelation 9"]},{"original":"2025-11-28","refs":["2 Kings 17","Revelation 10"]},{"original":"2025-11-29","refs":[]},{"original":"2025-11-30","refs":["2 Kings 18","Psalms 87"]},{"original":"2025-12-01","refs":["2 Kings 19","Revelation 11"]},{"original":"2025-12-02","refs":["2 Kings 20","Revelation 12","Revelation 13"]},{"original":"2025-12-03","refs":["2 Kings 21","Revelation 14","Revelation 15"]},{"original":"2025-12-04","refs":["2 Kings 22","Revelation 16"]},{"original":"2025-12-05","refs":["2 Kings 23","Revelation 17"]},{"original":"2025-12-06","refs":["2 Kings 24","Psalms 88"]},{"original":"2025-12-07","refs":["2 Kings 25","Psalms 89"]},{"original":"2025-12-08","refs":["1 Chronicles 1","Revelation 18"]},{"original":"2025-12-09","refs":["1 Chronicles 2","Revelation 19"]},{"original":"2025-12-10","refs":["1 Chronicles 3","Revelation 20"]},{"original":"2025-12-11","refs":["1 Chronicles 4","Revelation 21"]},{"original":"2025-12-12","refs":["1 Chronicles 5","Revelation 22"]},{"original":"2025-12-13","refs":["1 Chronicles 6","Psalms 90"]},{"original":"2025-12-14","refs":["1 Chronicles 7","Psalms 91"]},{"original":"2025-12-15","refs":["1 Chronicles 8","Matthew 1"]},{"original":"2025-12-16","refs":["1 Chronicles 9","Matthew 2"]},{"original":"2025-12-17","refs":["1 Chronicles 10","Matthew 3"]},{"original":"2025-12-18","refs":["1 Chronicles 11","Matthew 4"]},{"original":"2025-12-19","refs":["1 Chronicles 12","Matthew 5"]},{"original":"2025-12-20","refs":["1 Chronicles 13","Psalms 92"]},{"original":"2025-12-21","refs":["1 Chronicles 14","Psalms 93"]},{"original":"2025-12-22","refs":["1 Chronicles 15","Matthew 6"]},{"original":"2025-12-23","refs":["1 Chronicles 16","Matthew 7"]},{"original":"2025-12-24","refs":["1 Chronicles 17","Matthew 8"]},{"original":"2025-12-25","refs":["1 Chronicles 18","Matthew 9"]},{"original":"2025-12-26","refs":["1 Chronicles 19","Matthew 10"]},{"original":"2025-12-27","refs":[]},{"original":"2025-12-28","refs":["1 Chronicles 20","Psalms 94"]},{"original":"2025-12-29","refs":["1 Chronicles 21","Matthew 11"]},{"original":"2025-12-30","refs":["1 Chronicles 22","Matthew 12"]},{"original":"2025-12-31","refs":["1 Chronicles 23","Matthew 13"]},{"original":"2026-01-01","refs":["1 Chronicles 24","Matthew 14"]},{"original":"2026-01-02","refs":["1 Chronicles 25","Matthew 15"]},{"original":"2026-01-03","refs":["1 Chronicles 26","Psalms 95"]},{"original":"2026-01-04","refs":["1 Chronicles 27","Psalms 96"]},{"original":"2026-01-05","refs":["1 Chronicles 28","Matthew 16"]},{"original":"2026-01-06","refs":["1 Chronicles 29","Matthew 17"]},{"original":"2026-01-07","refs":["2 Chronicles 1","Matthew 18"]},{"original":"2026-01-08","refs":["2 Chronicles 2","Matthew 19"]},{"original":"2026-01-09","refs":["2 Chronicles 3","Matthew 20"]},{"original":"2026-01-10","refs":["2 Chronicles 4","Psalms 97"]},{"original":"2026-01-11","refs":["2 Chronicles 5","Psalms 98"]},{"original":"2026-01-12","refs":["2 Chronicles 6","Matthew 21"]},{"original":"2026-01-13","refs":["2 Chronicles 7","Matthew 22"]},{"original":"2026-01-14","refs":["2 Chronicles 8","Matthew 23"]},{"original":"2026-01-15","refs":["2 Chronicles 9","Matthew 24"]},{"original":"2026-01-16","refs":["2 Chronicles 10","Matthew 25"]},{"original":"2026-01-17","refs":["2 Chronicles 11","Psalms 99"]},{"original":"2026-01-18","refs":["2 Chronicles 12","Psalms 100"]},{"original":"2026-01-19","refs":["2 Chronicles 13","Matthew 26"]},{"original":"2026-01-20","refs":["2 Chronicles 14","Matthew 27"]},{"original":"2026-01-21","refs":["2 Chronicles 15","Matthew 28"]},{"original":"2026-01-22","refs":["2 Chronicles 16","Mark 1"]},{"original":"2026-01-23","refs":["2 Chronicles 17","Mark 2"]},{"original":"2026-01-24","refs":["2 Chronicles 18","Psalms 101"]},{"original":"2026-01-25","refs":["2 Chronicles 19","Psalms 102"]},{"original":"2026-01-26","refs":["2 Chronicles 20","Mark 3"]},{"original":"2026-01-27","refs":["2 Chronicles 21","Mark 4"]},{"original":"2026-01-28","refs":["2 Chronicles 22","Mark 5"]},{"original":"2026-01-29","refs":["2 Chronicles 23","Mark 6"]},{"original":"2026-01-30","refs":["2 Chronicles 24","Mark 7"]},{"original":"2026-01-31","refs":[]},{"original":"2026-02-01","refs":["2 Chronicles 25","Psalms 103"]},{"original":"2026-02-02","refs":["2 Chronicles 26","Mark 8"]},{"original":"2026-02-03","refs":["2 Chronicles 27","Mark 9"]},{"original":"2026-02-04","refs":["2 Chronicles 28","Mark 10"]},{"original":"2026-02-05","refs":["2 Chronicles 29","Mark 11"]},{"original":"2026-02-06","refs":["2 Chronicles 30","Mark 12"]},{"original":"2026-02-07","refs":["2 Chronicles 31","Psalms 104"]},{"original":"2026-02-08","refs":["2 Chronicles 32","Psalms 105"]},{"original":"2026-02-09","refs":["2 Chronicles 33","Mark 13"]},{"original":"2026-02-10","refs":["2 Chronicles 34","Mark 14"]},{"original":"2026-02-11","refs":["2 Chronicles 35","Mark 15"]},{"original":"2026-02-12","refs":["2 Chronicles 36","Mark 16"]},{"original":"2026-02-13","refs":["Ezra 1","Ezra 2","Luke 1"]},{"original":"2026-02-14","refs":["Ezra 3","Ezra 4","Psalms 106"]},{"original":"2026-02-15","refs":["Ezra 5","Psalms 107"]},{"original":"2026-02-16","refs":["Ezra 6","Luke 2"]},{"original":"2026-02-17","refs":["Ezra 7","Luke 3"]},{"original":"2026-02-18","refs":["Ezra 8","Luke 4"]},{"original":"2026-02-19","refs":["Ezra 9","Luke 5"]},{"original":"2026-02-20","refs":["Ezra 10","Luke 6"]},{"original":"2026-02-21","refs":["Nehemiah 1","Nehemiah 2","Psalms 108"]},{"original":"2026-02-22","refs":["Nehemiah 3","Psalms 109"]},{"original":"2026-02-23","refs":["Nehemiah 4","Luke 7"]},{"original":"2026-02-24","refs":["Nehemiah 5","Luke 8"]},{"original":"2026-02-25","refs":["Nehemiah 6","Luke 9"]},{"original":"2026-02-26","refs":["Nehemiah 7","Luke 10"]},{"original":"2026-02-27","refs":["Nehemiah 8","Luke 11"]},{"original":"2026-02-28","refs":[]},{"original":"2026-03-01","refs":["Nehemiah 9","Psalms 110"]},{"original":"2026-03-02","refs":["Nehemiah 10","Luke 12"]},{"original":"2026-03-03","refs":["Nehemiah 11","Luke 13"]},{"original":"2026-03-04","refs":["Nehemiah 12","Luke 14"]},{"original":"2026-03-05","refs":["Nehemiah 13","Luke 15"]},{"original":"2026-03-06","refs":["Esther 1","Luke 16"]},{"original":"2026-03-07","refs":["Esther 2","Psalms 111"]},{"original":"2026-03-08","refs":["Esther 3","Psalms 112"]},{"original":"2026-03-09","refs":["Esther 4","Luke 17"]},{"original":"2026-03-10","refs":["Esther 5","Esther 6","Luke 18"]},{"original":"2026-03-11","refs":["Esther 7","Esther 8","Luke 19"]},{"original":"2026-03-12","refs":["Esther 9","Esther 10","Luke 20"]},{"original":"2026-03-13","refs":["Job 1","Job 2","Luke 21"]},{"original":"2026-03-14","refs":["Job 3","Psalms 113"]},{"original":"2026-03-15","refs":["Job 4","Psalms 114"]},{"original":"2026-03-16","refs":["Job 5","Luke 22"]},{"original":"2026-03-17","refs":["Job 6","Luke 23"]},{"original":"2026-03-18","refs":["Job 7","Luke 24"]},{"original":"2026-03-19","refs":["Job 8","John 1"]},{"original":"2026-03-20","refs":["Job 9","John 2"]},{"original":"2026-03-21","refs":["Job 10","Psalms 115"]},{"original":"2026-03-22","refs":["Job 11","Psalms 116","Psalms 117"]},{"original":"2026-03-23","refs":["Job 12","John 3"]},{"original":"2026-03-24","refs":["Job 13","John 4"]},{"original":"2026-03-25","refs":["Job 14","John 5"]},{"original":"2026-03-26","refs":["Job 15","John 6"]},{"original":"2026-03-27","refs":["Job 16","John 7"]},{"original":"2026-03-28","refs":[]},{"original":"2026-03-29","refs":["Job 17","Psalms 118"]},{"original":"2026-03-30","refs":["Job 18","John 8","John 9"]},{"original":"2026-03-31","refs":["Job 19","John 10"]},{"original":"2026-04-01","refs":["Job 20","John 11"]},{"original":"2026-04-02","refs":["Job 21","John 12"]},{"original":"2026-04-03","refs":["Job 22","John 13"]},{"original":"2026-04-04","refs":["Job 23","Psalms 119:1-8"]},{"original":"2026-04-05","refs":["Job 24","Job 25","Psalms 119:9-16"]},{"original":"2026-04-06","refs":["Job 26","John 14"]},{"original":"2026-04-07","refs":["Job 27","John 15"]},{"original":"2026-04-08","refs":["Job 28","John 16"]},{"original":"2026-04-09","refs":["Job 29","John 17"]},{"original":"2026-04-10","refs":["Job 30","John 18"]},{"original":"2026-04-11","refs":["Job 31","Psalms 119:17-24"]},{"original":"2026-04-12","refs":["Job 32","Psalms 119:25-32"]},{"original":"2026-04-13","refs":["Job 33","John 19"]},{"original":"2026-04-14","refs":["Job 34","John 20"]},{"original":"2026-04-15","refs":["Job 35","John 21"]},{"original":"2026-04-16","refs":["Job 36","Acts 1"]},{"original":"2026-04-17","refs":["Job 37","Acts 2"]},{"original":"2026-04-18","refs":["Job 38","Psalms 119:33-40"]},{"original":"2026-04-19","refs":["Job 39","Psalms 119:41-48"]},{"original":"2026-04-20","refs":["Job 40","Acts 3"]},{"original":"2026-04-21","refs":["Job 41","Acts 4"]},{"original":"2026-04-22","refs":["Job 42","Acts 5"]},{"original":"2026-04-23","refs":["Isaiah 1","Acts 6"]},{"original":"2026-04-24","refs":["Isaiah 2","Acts 7"]},{"original":"2026-04-25","refs":[]},{"original":"2026-04-26","refs":["Isaiah 3","Isaiah 4","Psalms 119:49-56"]},{"original":"2026-04-27","refs":["Isaiah 5","Acts 8"]},{"original":"2026-04-28","refs":["Isaiah 6","Isaiah 7","Acts 9"]},{"original":"2026-04-29","refs":["Isaiah 8","Acts 10"]},{"original":"2026-04-30","refs":["Isaiah 9","Acts 11"]},{"original":"2026-05-01","refs":["Isaiah 10","Acts 12"]},{"original":"2026-05-02","refs":["Isaiah 11","Isaiah 12","Psalms 119:57-64"]},{"original":"2026-05-03","refs":["Isaiah 13","Psalms 119:65-72"]},{"original":"2026-05-04","refs":["Isaiah 14","Acts 13"]},{"original":"2026-05-05","refs":["Isaiah 15","Isaiah 16","Acts 14"]},{"original":"2026-05-06","refs":["Isaiah 17","Isaiah 18","Acts 15"]},{"original":"2026-05-07","refs":["Isaiah 19","Acts 16"]},{"original":"2026-05-08","refs":["Isaiah 20","Isaiah 21","Acts 17"]},{"original":"2026-05-09","refs":["Isaiah 22","Psalms 119:73-80"]},{"original":"2026-05-10","refs":["Isaiah 23","Psalms 119:81-88"]},{"original":"2026-05-11","refs":["Isaiah 24","Acts 18"]},{"original":"2026-05-12","refs":["Isaiah 25","Isaiah 26","Acts 19"]},{"original":"2026-05-13","refs":["Isaiah 27","Acts 20"]},{"original":"2026-05-14","refs":["Isaiah 28","Acts 21"]},{"original":"2026-05-15","refs":["Isaiah 29","Acts 22"]},{"original":"2026-05-16","refs":["Isaiah 30","Psalms 119:89-96"]},{"original":"2026-05-17","refs":["Isaiah 31","Isaiah 32","Psalms 119:97-104"]},{"original":"2026-05-18","refs":["Isaiah 33","Acts 23"]},{"original":"2026-05-19","refs":["Isaiah 34","Isaiah 35","Acts 24"]},{"original":"2026-05-20","refs":["Isaiah 36","Acts 25"]},{"original":"2026-05-21","refs":["Isaiah 37","Acts 26"]},{"original":"2026-05-22","refs":["Isaiah 38","Isaiah 39","Acts 27"]},{"original":"2026-05-23","refs":["Isaiah 40","Psalms 119:105-112"]},{"original":"2026-05-24","refs":["Isaiah 41","Psalms 119:113-120"]},{"original":"2026-05-25","refs":["Isaiah 42","Acts 28"]},{"original":"2026-05-26","refs":["Isaiah 43","Romans 1"]},{"original":"2026-05-27","refs":["Isaiah 44","Romans 2"]},{"original":"2026-05-28","refs":["Isaiah 45","Romans 3"]},{"original":"2026-05-29","refs":["Isaiah 46","Romans 4"]},{"original":"2026-05-30","refs":[]},{"original":"2026-05-31","refs":["Isaiah 47","Psalms 119:121-128"]},{"original":"2026-06-01","refs":["Isaiah 48","Romans 5"]},{"original":"2026-06-02","refs":["Isaiah 49","Romans 6"]},{"original":"2026-06-03","refs":["Isaiah 50","Romans 7"]},{"original":"2026-06-04","refs":["Isaiah 51","Romans 8"]},{"original":"2026-06-05","refs":["Isaiah 52","Romans 9"]},{"original":"2026-06-06","refs":["Isaiah 53","Psalms 119:129-136"]},{"original":"2026-06-07","refs":["Isaiah 54","Psalms 119:137-144"]},{"original":"2026-06-08","refs":["Isaiah 55","Romans 10"]},{"original":"2026-06-09","refs":["Isaiah 56","Romans 11"]},{"original":"2026-06-10","refs":["Isaiah 57","Romans 12"]},{"original":"2026-06-11","refs":["Isaiah 58","Romans 13"]},{"original":"2026-06-12","refs":["Isaiah 59","Romans 14"]},{"original":"2026-06-13","refs":["Isaiah 60","Psalms 119:145-152"]},{"original":"2026-06-14","refs":["Isaiah 61","Isaiah 62","Psalms 119:153-160"]},{"original":"2026-06-15","refs":["Isaiah 63","Romans 15"]},{"original":"2026-06-16","refs":["Isaiah 64","Romans 16"]},{"original":"2026-06-17","refs":["Isaiah 65","1 Corinthians 1"]},{"original":"2026-06-18","refs":["Isaiah 66","1 Corinthians 2"]},{"original":"2026-06-19","refs":["Jeremiah 1","1 Corinthians 3"]},{"original":"2026-06-20","refs":["Jeremiah 2","Psalms 119:161-168"]},{"original":"2026-06-21","refs":["Jeremiah 3","Psalms 119:169-176"]},{"original":"2026-06-22","refs":["Jeremiah 4","1 Corinthians 4"]},{"original":"2026-06-23","refs":["Jeremiah 5","1 Corinthians 5"]},{"original":"2026-06-24","refs":["Jeremiah 6","1 Corinthians 6"]},{"original":"2026-06-25","refs":["Jeremiah 7","1 Corinthians 7"]},{"original":"2026-06-26","refs":["Jeremiah 8","1 Corinthians 8"]},{"original":"2026-06-27","refs":[]},{"original":"2026-06-28","refs":["Jeremiah 9","Psalms 120"]},{"original":"2026-06-29","refs":["Jeremiah 10","1 Corinthians 9"]},{"original":"2026-06-30","refs":["Jeremiah 11","1 Corinthians 10"]},{"original":"2026-07-01","refs":["Jeremiah 12","1 Corinthians 11"]},{"original":"2026-07-02","refs":["Jeremiah 13","1 Corinthians 12"]},{"original":"2026-07-03","refs":["Jeremiah 14","1 Corinthians 13"]},{"original":"2026-07-04","refs":["Jeremiah 15","Psalms 121"]},{"original":"2026-07-05","refs":["Jeremiah 16","Psalms 122"]},{"original":"2026-07-06","refs":["Jeremiah 17","1 Corinthians 14"]},{"original":"2026-07-07","refs":["Jeremiah 18","1 Corinthians 15"]},{"original":"2026-07-08","refs":["Jeremiah 19","1 Corinthians 16"]},{"original":"2026-07-09","refs":["Jeremiah 20","2 Corinthians 1"]},{"original":"2026-07-10","refs":["Jeremiah 21","2 Corinthians 2"]},{"original":"2026-07-11","refs":["Jeremiah 22","Psalms 123"]},{"original":"2026-07-12","refs":["Jeremiah 23","Psalms 124"]},{"original":"2026-07-13","refs":["Jeremiah 24","2 Corinthians 3","2 Corinthians 4"]},{"original":"2026-07-14","refs":["Jeremiah 25","2 Corinthians 5"]},{"original":"2026-07-15","refs":["Jeremiah 26","2 Corinthians 6"]},{"original":"2026-07-16","refs":["Jeremiah 27","2 Corinthians 7"]},{"original":"2026-07-17","refs":["Jeremiah 28","2 Corinthians 8"]},{"original":"2026-07-18","refs":["Jeremiah 29","Psalms 125"]},{"original":"2026-07-19","refs":["Jeremiah 30","Psalms 126"]},{"original":"2026-07-20","refs":["Jeremiah 31","2 Corinthians 9"]},{"original":"2026-07-21","refs":["Jeremiah 32","2 Corinthians 10"]},{"original":"2026-07-22","refs":["Jeremiah 33","2 Corinthians 11"]},{"original":"2026-07-23","refs":["Jeremiah 34","2 Corinthians 12"]},{"original":"2026-07-24","refs":["Jeremiah 35","2 Corinthians 13"]},{"original":"2026-07-25","refs":[]},{"original":"2026-07-26","refs":["Jeremiah 36","Psalms 127"]},{"original":"2026-07-27","refs":["Jeremiah 37","Galatians 1"]},{"original":"2026-07-28","refs":["Jeremiah 38","Galatians 2"]},{"original":"2026-07-29","refs":["Jeremiah 39","Galatians 3"]},{"original":"2026-07-30","refs":["Jeremiah 40","Galatians 4"]},{"original":"2026-07-31","refs":["Jeremiah 41","Galatians 5"]},{"original":"2026-08-01","refs":["Jeremiah 42","Jeremiah 43","Psalms 128"]},{"original":"2026-08-02","refs":["Jeremiah 44","Psalms 129"]},{"original":"2026-08-03","refs":["Jeremiah 45","Galatians 6"]},{"original":"2026-08-04","refs":["Jeremiah 46","Ephesians 1"]},{"original":"2026-08-05","refs":["Jeremiah 47","Ephesians 2"]},{"original":"2026-08-06","refs":["Jeremiah 48","Ephesians 3"]},{"original":"2026-08-07","refs":["Jeremiah 49","Ephesians 4"]},{"original":"2026-08-08","refs":["Jeremiah 50","Psalms 130"]},{"original":"2026-08-09","refs":["Jeremiah 51","Psalms 131"]},{"original":"2026-08-10","refs":["Jeremiah 52","Ephesians 5"]},{"original":"2026-08-11","refs":["Lamentations 1","Ephesians 6"]},{"original":"2026-08-12","refs":["Lamentations 2","Philippians 1"]},{"original":"2026-08-13","refs":["Lamentations 3","Philippians 2"]},{"original":"2026-08-14","refs":["Lamentations 4","Philippians 3"]},{"original":"2026-08-15","refs":["Lamentations 5","Psalms 132"]},{"original":"2026-08-16","refs":["Ezekiel 1","Psalms 133"]},{"original":"2026-08-17","refs":["Ezekiel 2","Ezekiel 3","Philippians 4"]},{"original":"2026-08-18","refs":["Ezekiel 4","Ezekiel 5","Colossians 1"]},{"original":"2026-08-19","refs":["Ezekiel 6","Colossians 2"]},{"original":"2026-08-20","refs":["Ezekiel 7","Colossians 3"]},{"original":"2026-08-21","refs":["Ezekiel 8","Ezekiel 9","Colossians 4"]},{"original":"2026-08-22","refs":["Ezekiel 10","Psalms 134"]},{"original":"2026-08-23","refs":["Ezekiel 11","Psalms 135"]},{"original":"2026-08-24","refs":["Ezekiel 12","1 Thessalonians 1","1 Thessalonians 2"]},{"original":"2026-08-25","refs":["Ezekiel 13","1 Thessalonians 3"]},{"original":"2026-08-26","refs":["Ezekiel 14","Ezekiel 15","1 Thessalonians 4"]},{"original":"2026-08-27","refs":["Ezekiel 16","1 Thessalonians 5"]},{"original":"2026-08-28","refs":["Ezekiel 17","2 Thessalonians 1"]},{"original":"2026-08-29","refs":[]},{"original":"2026-08-30","refs":["Ezekiel 18","Psalms 136"]},{"original":"2026-08-31","refs":["Ezekiel 19","2 Thessalonians 2"]},{"original":"2026-09-01","refs":["Ezekiel 20","2 Thessalonians 3"]},{"original":"2026-09-02","refs":["Ezekiel 21","1 Timothy 1"]},{"original":"2026-09-03","refs":["Ezekiel 22","1 Timothy 2"]},{"original":"2026-09-04","refs":["Ezekiel 23","1 Timothy 3"]},{"original":"2026-09-05","refs":["Ezekiel 24","Psalms 137"]},{"original":"2026-09-06","refs":["Ezekiel 25","Psalms 138"]},{"original":"2026-09-07","refs":["Ezekiel 26","1 Timothy 4"]},{"original":"2026-09-08","refs":["Ezekiel 27","1 Timothy 5"]},{"original":"2026-09-09","refs":["Ezekiel 28","1 Timothy 6"]},{"original":"2026-09-10","refs":["Ezekiel 29","2 Timothy 1"]},{"original":"2026-09-11","refs":["Ezekiel 30","2 Timothy 2"]},{"original":"2026-09-12","refs":["Ezekiel 31","Psalms 139"]},{"original":"2026-09-13","refs":["Ezekiel 32","Psalms 140"]},{"original":"2026-09-14","refs":["Ezekiel 33","2 Timothy 3"]},{"original":"2026-09-15","refs":["Ezekiel 34","2 Timothy 4"]},{"original":"2026-09-16","refs":["Ezekiel 35","Titus 1"]},{"original":"2026-09-17","refs":["Ezekiel 36","Titus 2"]},{"original":"2026-09-18","refs":["Ezekiel 37","Titus 3"]},{"original":"2026-09-19","refs":["Ezekiel 38","Psalms 141"]},{"original":"2026-09-20","refs":["Ezekiel 39","Psalms 142"]},{"original":"2026-09-21","refs":["Ezekiel 40","Philemon 1"]},{"original":"2026-09-22","refs":["Ezekiel 41","Hebrews 1"]},{"original":"2026-09-23","refs":["Ezekiel 42","Hebrews 2"]},{"original":"2026-09-24","refs":["Ezekiel 43","Hebrews 3"]},{"original":"2026-09-25","refs":["Ezekiel 44","Hebrews 4"]},{"original":"2026-09-26","refs":[]},{"original":"2026-09-27","refs":["Ezekiel 45","Psalms 143"]},{"original":"2026-09-28","refs":["Ezekiel 46","Hebrews 5"]},{"original":"2026-09-29","refs":["Ezekiel 47","Hebrews 6"]},{"original":"2026-09-30","refs":["Ezekiel 48","Hebrews 7"]},{"original":"2026-10-01","refs":["Daniel 1","Hebrews 8"]},{"original":"2026-10-02","refs":["Daniel 2","Hebrews 9"]},{"original":"2026-10-03","refs":["Daniel 3","Psalms 144"]},{"original":"2026-10-04","refs":["Daniel 4","Psalms 145"]},{"original":"2026-10-05","refs":["Daniel 5","Hebrews 10"]},{"original":"2026-10-06","refs":["Daniel 6","Hebrews 11"]},{"original":"2026-10-07","refs":["Daniel 7","Hebrews 12"]},{"original":"2026-10-08","refs":["Daniel 8","Hebrews 13"]},{"original":"2026-10-09","refs":["Daniel 9","James 1"]},{"original":"2026-10-10","refs":["Daniel 10","Psalms 146"]},{"original":"2026-10-11","refs":["Daniel 11","Daniel 12","Psalms 147"]},{"original":"2026-10-12","refs":["Hosea 1","Hosea 2","James 2"]},{"original":"2026-10-13","refs":["Hosea 3","Hosea 4","James 3"]},{"original":"2026-10-14","refs":["Hosea 5","James 4"]},{"original":"2026-10-15","refs":["Hosea 6","James 5"]},{"original":"2026-10-16","refs":["Hosea 7","1 Peter 1"]},{"original":"2026-10-17","refs":["Hosea 8","Psalms 150"]},{"original":"2026-10-18","refs":["Hosea 9","Proverbs 1"]},{"original":"2026-10-19","refs":["Hosea 10","1 Peter 2"]},{"original":"2026-10-20","refs":["Hosea 11","Hosea 12","1 Peter 3"]},{"original":"2026-10-21","refs":["Hosea 13","Hosea 14","1 Peter 4"]},{"original":"2026-10-22","refs":["Joel 1","1 Peter 5"]},{"original":"2026-10-23","refs":["Joel 2","2 Peter 1"]},{"original":"2026-10-24","refs":["Joel 3","Proverbs 2"]},{"original":"2026-10-25","refs":["Amos 1","Amos 2","Proverbs 3"]},{"original":"2026-10-26","refs":["Amos 3","2 Peter 2"]},{"original":"2026-10-27","refs":["Amos 4","2 Peter 3"]},{"original":"2026-10-28","refs":["Amos 5","1 John 1"]},{"original":"2026-10-29","refs":["Amos 6","Amos 7","1 John 2"]},{"original":"2026-10-30","refs":["Amos 8","1 John 3"]},{"original":"2026-10-31","refs":[]},{"original":"2026-11-01","refs":["Amos 9","Proverbs 4"]},{"original":"2026-11-02","refs":["Obadiah 1","1 John 4"]},{"original":"2026-11-03","refs":["Jonah 1","1 John 5"]},{"original":"2026-11-04","refs":["Jonah 2","2 John 1"]},{"original":"2026-11-05","refs":["Jonah 3","3 John 1"]},{"original":"2026-11-06","refs":["Jonah 4","Revelation 1"]},{"original":"2026-11-07","refs":["Micah 1","Proverbs 5"]},{"original":"2026-11-08","refs":["Micah 2","Proverbs 6"]},{"original":"2026-11-09","refs":["Micah 3","Revelation 2"]},{"original":"2026-11-10","refs":["Micah 4","Revelation 3"]},{"original":"2026-11-11","refs":["Micah 5","Revelation 4"]},{"original":"2026-11-12","refs":["Micah 6","Revelation 5"]},{"original":"2026-11-13","refs":["Micah 7","Revelation 6"]},{"original":"2026-11-14","refs":["Nahum 1","Proverbs 7"]},{"original":"2026-11-15","refs":["Nahum 2","Proverbs 8"]},{"original":"2026-11-16","refs":["Nahum 3","Revelation 7"]},{"original":"2026-11-17","refs":["Habakkuk 1","Revelation 8"]},{"original":"2026-11-18","refs":["Habakkuk 2","Revelation 9"]},{"original":"2026-11-19","refs":["Habakkuk 3","Revelation 10"]},{"original":"2026-11-20","refs":["Zephaniah 1","Revelation 11"]},{"original":"2026-11-21","refs":["Zephaniah 2","Proverbs 9"]},{"original":"2026-11-22","refs":["Zephaniah 3","Proverbs 10"]},{"original":"2026-11-23","refs":["Haggai 1","Revelation 12"]},{"original":"2026-11-24","refs":["Haggai 2","Revelation 13"]},{"original":"2026-11-25","refs":["Zechariah 1","Revelation 14"]},{"original":"2026-11-26","refs":["Zechariah 2","Revelation 15"]},{"original":"2026-11-27","refs":["Zechariah 3","Revelation 16"]},{"original":"2026-11-28","refs":[]},{"original":"2026-11-29","refs":["Zechariah 4","Proverbs 11"]},{"original":"2026-11-30","refs":["Zechariah 5","Revelation 17"]},{"original":"2026-12-01","refs":["Zechariah 6","Revelation 18"]},{"original":"2026-12-02","refs":["Zechariah 7","Revelation 19"]},{"original":"2026-12-03","refs":["Zechariah 8","Revelation 20"]},{"original":"2026-12-04","refs":["Zechariah 9","Revelation 21"]},{"original":"2026-12-05","refs":["Zechariah 10","Proverbs 12"]},{"original":"2026-12-06","refs":["Zechariah 11","Proverbs 13"]},{"original":"2026-12-07","refs":["Zechariah 12","Revelation 22"]},{"original":"2026-12-08","refs":["Zechariah 13","Proverbs 14"]},{"original":"2026-12-09","refs":["Zechariah 14","Proverbs 15"]},{"original":"2026-12-10","refs":["Malachi 1","Proverbs 16"]},{"original":"2026-12-11","refs":["Malachi 2","Proverbs 17"]},{"original":"2026-12-12","refs":["Malachi 3","Malachi 4","Proverbs 18"]},{"original":"2026-12-13","refs":["Song of Solomon 1","Proverbs 19"]},{"original":"2026-12-14","refs":["Song of Solomon 2","Song of Solomon 3","Proverbs 20"]},{"original":"2026-12-15","refs":["Song of Solomon 4","Proverbs 21"]},{"original":"2026-12-16","refs":["Song of Solomon 5","Proverbs 22"]},{"original":"2026-12-17","refs":["Song of Solomon 6","Song of Solomon 7","Proverbs 23"]},{"original":"2026-12-18","refs":["Song of Solomon 8","Proverbs 24"]},{"original":"2026-12-19","refs":["Ecclesiastes 1","Proverbs 25"]},{"original":"2026-12-20","refs":["Ecclesiastes 2","Proverbs 26"]},{"original":"2026-12-21","refs":["Ecclesiastes 3","Proverbs 27"]},{"original":"2026-12-22","refs":["Ecclesiastes 4","Proverbs 28"]},{"original":"2026-12-23","refs":["Ecclesiastes 5","Ecclesiastes 6","Proverbs 29"]},{"original":"2026-12-24","refs":["Ecclesiastes 7","Proverbs 30"]},{"original":"2026-12-25","refs":["Ecclesiastes 8","Proverbs 31"]},{"original":"2026-12-26","refs":[]},{"original":"2026-12-27","refs":["Ecclesiastes 9"]},{"original":"2026-12-28","refs":["Ecclesiastes 10"]},{"original":"2026-12-29","refs":["Ecclesiastes 11"]},{"original":"2026-12-30","refs":["Ecclesiastes 12"]},{"original":"2026-12-31","refs":[]}]</script>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+const list=JSON.parse($('printedPlan').textContent);
+const plans={
+  'two-year':{title:'Two-Year Bible Reading Plan',subtitle:'Read through Scripture with regular catch-up days.',days:list},
+  'proverbs':{title:'Proverbs in 31 Days',subtitle:'Read one chapter of Proverbs each day.',days:Array.from({length:31},(_,i)=>({refs:['Proverbs '+(i+1)]}))}
+};
+const dateText=(date,style='medium')=>new Intl.DateTimeFormat(undefined,{dateStyle:style,timeZone:'UTC'}).format(new Date(date+'T12:00:00Z'));
+const planStart=list[0].original;
+const localDate=()=>{
+  const d=new Date();
+  return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
+};
+function addDays(date,n){
+  const d=new Date(date+'T12:00:00Z');
+  d.setUTCDate(d.getUTCDate()+n);
+  return d.toISOString().slice(0,10);
+}
+function scheduledDate(id,start,index){
+  return id==='two-year'?list[index].original:addDays(start,index);
+}
+function calendarReading(date){
+  const scheduled=list.findIndex(day=>day.original===date);
+  if(date<planStart)return {index:0,day:scheduled};
+  let index=scheduled<0?list.length-1:scheduled;
+  while(index>0&&!list[index].refs.length)index--;
+  return {index,day:scheduled};
+}
+const stateKey='twg-reading-plans.v1';
+const empty=()=>({enrollments:{},progress:{},journal:{}});
+function localGet(key,fallback){
+  try{return JSON.parse(localStorage.getItem(key))??fallback;}catch{return fallback;}
+}
+function localSet(key,value){
+  try{localStorage.setItem(key,JSON.stringify(value));return true;}catch{return false;}
+}
+const profiles=localGet(stateKey,{guest:empty()});
+let reader=null, sequence=0, timer;
+const profile=()=>profiles.guest??=empty();
+function notify(message){clearTimeout(timer);$('status').textContent=message;$('status').hidden=false;timer=setTimeout(()=>$('status').hidden=true,3000);}
+function saveDevice(){return localSet(stateKey,profiles);}
+function keyFor(id,index){return id+'__'+index;}
+function action(text,fn,className='button'){
+  const b=document.createElement('button');b.type='button';b.className=className;b.textContent=text;b.onclick=fn;return b;
+}
+function el(tag,cls,text){
+  const node=document.createElement(tag);
+  if(cls)node.className=cls;
+  if(text!==undefined)node.textContent=text;
+  return node;
+}
+function textRow(parts,cls='muted'){return el('p',cls,parts);}
+function icon(name){
+  const template=el('template');
+  template.innerHTML='<svg class="icon" aria-hidden="true"><use href="desk-icons.svg#'+name+'"></use></svg>';
+  return template.content.firstChild;
+}
+function iconAction(name,text,fn,style){
+  const button=action(text,fn,style);
+  button.prepend(icon(name));
+  return button;
+}
+function actions(...children){const row=el('div','actions');row.append(...children);return row;}
+function page(label,title,description){
+  const heading=el('div','page-head');
+  if(label)heading.append(el('p','label',label));
+  heading.append(el('h1','',title));
+  if(description)heading.append(textRow(description,'muted lead'));
+  $('main').append(heading);
+}
+function reveal(view,scroll=true){
+  sequence++;
+  document.querySelectorAll('.tabs button').forEach(b=>{
+    if(b.dataset.view===view||(reader?.desk&&view==='reader'&&b.dataset.view==='today'))b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');
+  });
+  $('main').replaceChildren();
+  if(view==='today')renderToday();
+  if(view==='plans')renderPlans();
+  if(view==='journal')renderJournal();
+  if(view==='guide')renderGuide();
+  if(view==='reader')reader.desk?renderToday(true):renderReader();
+  if(view==='reflect')renderReflection();
+  if(scroll)window.scrollTo({top:0});
+}
+function startPlan(id,date){
+  const data=profile();
+  const existing=data.enrollments[id];
+  const start=id==='two-year'?planStart:date||localDate();
+  const current=Date.parse(start+'T12:00:00Z');
+  if(!Number.isFinite(current)||!/^\d{4}-\d{2}-\d{2}$/.test(start)||start<'1900-01-01'||start>'9997-12-31'){
+    notify('Choose a valid start date.');return;
+  }
+  const enrollment={start,updatedAt:Math.max(Date.now(),(existing?.updatedAt||0)+1)};
+  data.enrollments[id]=enrollment;
+  const saved=saveDevice();
+  $('dialog').close();
+  reveal('today');
+  notify(saved?(existing?'Start date updated':'Plan started'):'Start date kept for this session');
+}
+function nextReading(id){
+  return plans[id].days.findIndex((_,i)=>!profile().progress[keyFor(id,i)]?.done);
+}
+function putProgress(id,index,done){
+  const key=keyFor(id,index);
+  const prev=profile().progress[key];
+  profile().progress[key]={done,updatedAt:Math.max(Date.now(),(prev?.updatedAt||0)+1)};
+  const saved=saveDevice();
+  return saved;
+}
+function planCard(id){
+  const p=plans[id];
+  const card=el('article','card');
+  const emblem=el('span','plan-emblem');
+  emblem.append(icon(id==='two-year'?'book':'sun'));
+  card.append(emblem,el('p','metadata',id==='two-year'?'January 2025 – December 2026':'31 days'),el('h2','',p.title),textRow(p.subtitle),
+    actions(action('Preview plan',()=>previewPlan(id),'soft'),
+      action(id==='two-year'?'Open today':profile().enrollments[id]?'Continue':'Start plan',()=>{
+        const next=nextReading(id);
+        if(id==='two-year')reveal('today');
+        else if(profile().enrollments[id]&&next>=0)openDay(id,next);
+        else previewPlan(id,true);
+      },'link-button')));
+  return card;
+}
+function renderToday(keepReading=false){
+  const today=localDate(), {index,day}=calendarReading(today);
+  if(!keepReading)reader={id:'two-year',index,refIndex:0,selected:null,step:0,desk:true};
+  const hero=el('section','daily-banner'), date=el('p','daily-date');
+  date.append(icon('calendar'),document.createTextNode(dateText(today,'full')));
+  const catchUp=day>=0&&day!==index;
+  hero.append(date,el('h1','',catchUp?'Catch-up day':day<0?'Scripture Desk':'Today’s Scripture'),
+    textRow(catchUp?'Revisit the reading from '+dateText(list[index].original):'Two-Year Bible Reading Plan · 2025–2026','daily-plan'));
+  $('main').append(hero);
+  renderReader();
+}
+function renderPlans(){
+  page(null,'Reading plans');
+  const grid=el('div','grid');
+  for(const id of Object.keys(plans))grid.append(planCard(id));
+  $('main').append(grid);
+}
+function renderGuide(){
+  const guide=el('section','start-guide');
+  guide.append(el('h1','','How to Start'));
+  const steps=el('ol','guide-steps');
+  const instructions=[
+    ['book','Open today’s Scripture','Today opens directly to the scheduled reading. If there are two passages, use the tabs above the text to switch between them.'],
+    ['note','Highlight what stands out','Tap a word to select it, or tap the verse number to select the whole verse. Choose a W.O.R.D. colour. You can choose more than one and write a separate reflection for each.'],
+    ['check','Save your devotion','Use Wait to pause before God and World to put what you read into practice. Open Review and choose Save devotion to keep it in your Journal.']
+  ];
+  for(const [glyph,title,description] of instructions){
+    const step=el('li','guide-step'), graphic=el('span','plan-emblem'), copy=el('div');
+    graphic.append(icon(glyph));
+    copy.append(el('h2','',title),textRow(description));
+    if(glyph==='note'){
+      const legend=el('ul','guide-colours');
+      for(const category of categories){
+        const entry=el('li');
+        entry.append(categoryBadge(category),document.createTextNode(category.name));
+        legend.append(entry);
+      }
+      copy.append(legend);
+    }
+    step.append(graphic,copy);steps.append(step);
+  }
+  guide.append(steps,actions(iconAction('book','Open today’s reading',()=>reveal('today'))),
+    textRow('Your highlights and reflections stay in this browser.','metadata guide-privacy'));
+  $('main').append(guide);
+}
+function openDialog(title){
+  $('dialogTitle').textContent=title;
+  $('dialogBody').replaceChildren();
+  if(!$('dialog').open)$('dialog').showModal();
+  $('dialog').scrollTop=0;
+  return $('dialogBody');
+}
+$('closeDialog').onclick=()=>$('dialog').close();
+$('feedbackButton').onclick=()=>{
+  const body=openDialog('Share feedback');
+  const form=el('form','feedback-form'), label=el('label','','What worked well or could be better?');
+  const input=el('textarea','field full');
+  label.htmlFor='feedbackMessage';
+  input.id='feedbackMessage';input.required=true;input.maxLength=2000;input.rows=5;
+  const submit=el('button','button','Submit feedback');submit.type='submit';
+  const status=el('p','metadata');status.setAttribute('role','status');
+  const id=crypto.randomUUID();
+  form.append(label,input,textRow('Your submission includes only what you enter here.','metadata'),actions(submit),status);
+  body.append(form);input.focus();
+  form.onsubmit=async event=>{
+    event.preventDefault();
+    if(!input.value.trim()){status.textContent='Enter your feedback before submitting.';input.focus();return;}
+    submit.disabled=true;input.readOnly=true;status.textContent='Submitting…';
+    try{
+      const res=await fetch('/api/feedback',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({id,message:input.value.trim()})});
+      if(!res.ok)throw new Error('Feedback submission failed');
+      const done=textRow('Thank you for your feedback.','feedback-thanks');
+      done.setAttribute('role','status');
+      body.replaceChildren(done,actions(action('Done',()=>$('dialog').close())));
+    }catch{
+      submit.disabled=false;input.readOnly=false;
+      status.textContent='Couldn’t submit your feedback. Please try again.';
+    }
+  };
+};
+function previewPlan(id,start=false,fromIndex){
+  const p=plans[id], enrollment=profile().enrollments[id], b=openDialog(p.title);
+  b.append(textRow(p.days.length+' days · '+p.subtitle));
+  const tabs=el('div','plan-toolbar'), input=el('select','field');
+  const label=el('label','metadata','Browse by month');
+  const rows=el('div','');
+  let previewStart=id==='two-year'?planStart:enrollment?.start||localDate();
+  let dates=[];
+  function refreshCalendar(index=0){
+    dates=p.days.map((_,i)=>scheduledDate(id,previewStart,i));
+    if(id==='two-year'){
+      const months=[...new Set(dates.map(date=>date.slice(0,7)))];
+      const monthFormat=new Intl.DateTimeFormat(undefined,{month:'long',year:'numeric',timeZone:'UTC'});
+      input.replaceChildren(...months.map(month=>{
+        const option=el('option','',monthFormat.format(new Date(month+'-01T12:00Z')));
+        option.value=month;
+        return option;
+      }));
+      input.value=dates[index].slice(0,7);
+    }
+    buildRows();
+  }
+  function buildRows(){
+    rows.replaceChildren();
+    p.days.forEach((d,i)=>{
+      if(id==='two-year'&&!dates[i].startsWith(input.value))return;
+      const row=el('div','plan-row');
+      const done=profile().progress[keyFor(id,i)]?.done;
+      const left=el('div','metadata','Day '+(i+1));
+      left.append(el('div','',dateText(dates[i])));
+      row.append(left,el('span','',d.refs.join(' · ')||'Catch-up day'));
+      const button=action(done?'Read again':d.refs.length?'Read':'View',()=>{$('dialog').close();openDay(id,i);},'link-button');
+      if(done)left.append(el('div','', 'Done'));
+      row.append(button);
+      rows.append(row);
+    });
+  }
+  if(id==='two-year'){
+    label.append(input);tabs.append(label);input.onchange=buildRows;
+  }
+  if(id!=='two-year'){
+    const form=el('form','dialog-actions'), label=el('label','stack','Start date'), field=el('input','field');
+    field.type='date';field.required=true;field.value=previewStart;field.id='startDate';
+    field.min='1900-01-01';field.max='9997-12-31';
+    field.onchange=()=>{if(field.value&&field.validity.valid){previewStart=field.value;refreshCalendar();}};
+    label.append(field);const submit=el('button','button',enrollment?'Update start date':'Start this plan');submit.type='submit';
+    form.append(label,submit);
+    form.onsubmit=e=>{e.preventDefault();startPlan(id,field.value);};
+    b.append(form);
+    if(start)field.focus();
+  }
+  if(id==='two-year')b.append(tabs);
+  b.append(rows);refreshCalendar(fromIndex??(id==='two-year'?calendarReading(localDate()).index:enrollment?Math.max(0,nextReading(id)):0));
+}
+document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>reveal(b.dataset.view));
+</script>
+<script>
+const categories=[
+  {name:'Worship',letter:'W',color:'var(--gold)',description:'Praise God for who He is.',prompt:'What does this show you about God’s character? Tell Him what you praise Him for.'},
+  {name:'Observe',letter:'O',color:'var(--rose)',description:'Notice what you need to confess.',prompt:'What sin or attitude is this bringing to light? What could you confess to God?'},
+  {name:'Remember',letter:'R',color:'var(--blue)',description:'Thank Jesus for what He’s done.',prompt:'What about Jesus and His work on the cross can you remember with thanks?'},
+  {name:'Declare',letter:'D',color:'var(--green)',description:'Speak God’s truth and ask for help to live it.',prompt:'What truth can you hold on to? Where do you need the Holy Spirit’s power to live it out?'}
+];
+const emotions={
+  Worried:['Uncertain','Under pressure','Afraid'],
+  Sad:['Hurt','Lonely','Discouraged'],
+  Angry:['Frustrated','Resentful','Irritated'],
+  Overwhelmed:['Exhausted','Restless','Stretched thin'],
+  Peaceful:['Safe','Hopeful','At ease'],
+  Grateful:['Joyful','Loved','Content']
+};
+const emptyJournal=()=>({wait:'',feeling:'',detail:'',notes:['','','',''],marks:{},wordNotes:{},world:'',names:'',finished:false,updatedAt:0});
+const readingDraft=()=>profile().journal[keyFor(reader.id,reader.index)]??=emptyJournal();
+const passageCache=new Map();
+const bookCodes={
+  Genesis:'GEN',Exodus:'EXO',Leviticus:'LEV',Numbers:'NUM',Deuteronomy:'DEU',Joshua:'JOS',Judges:'JDG',Ruth:'RUT',
+  '1 Samuel':'1SA','2 Samuel':'2SA','1 Kings':'1KI','2 Kings':'2KI','1 Chronicles':'1CH','2 Chronicles':'2CH',
+  Ezra:'EZR',Nehemiah:'NEH',Esther:'EST',Job:'JOB',Psalms:'PSA',Proverbs:'PRO',Ecclesiastes:'ECC','Song of Solomon':'SNG',
+  Isaiah:'ISA',Jeremiah:'JER',Lamentations:'LAM',Ezekiel:'EZK',Daniel:'DAN',Hosea:'HOS',Joel:'JOL',Amos:'AMO',Obadiah:'OBA',
+  Jonah:'JON',Micah:'MIC',Nahum:'NAM',Habakkuk:'HAB',Zephaniah:'ZEP',Haggai:'HAG',Zechariah:'ZEC',Malachi:'MAL',
+  Matthew:'MAT',Mark:'MRK',Luke:'LUK',John:'JHN',Acts:'ACT',Romans:'ROM','1 Corinthians':'1CO','2 Corinthians':'2CO',
+  Galatians:'GAL',Ephesians:'EPH',Philippians:'PHP',Colossians:'COL','1 Thessalonians':'1TH','2 Thessalonians':'2TH',
+  '1 Timothy':'1TI','2 Timothy':'2TI',Titus:'TIT',Philemon:'PHM',Hebrews:'HEB',James:'JAS','1 Peter':'1PE','2 Peter':'2PE',
+  '1 John':'1JN','2 John':'2JN','3 John':'3JN',Jude:'JUD',Revelation:'REV'
+};
+const bookOrder=Object.keys(bookCodes);
+function openDay(id,index){
+  reader={id,index,refIndex:0,selected:null,step:0};
+  reveal('reader');
+}
+function readAgain(){
+  reveal('reader',false);
+  const selected=$('selectedVerse');
+  if(selected){selected.focus({preventScroll:true});selected.scrollIntoView({block:'nearest'});}
+  else window.scrollTo({top:0});
+}
+function markButton(readerPanel){
+  const done=profile().progress[keyFor(reader.id,reader.index)]?.done;
+  const day=plans[reader.id].days[reader.index];
+  return action(done?'Mark as unread':day.refs.length?'Mark as read':'Complete catch-up day',()=>{
+    const saved=putProgress(reader.id,reader.index,!done);
+    reveal(readerPanel,false);
+    notify(saved?(done?'Marked as unread':'Progress saved'):'Progress kept for this session');
+  },done?'soft':'button');
+}
+async function fetchChapter(url,provider){
+  const controller=new AbortController();
+  const timeout=setTimeout(()=>controller.abort(),6500);
+  try{
+    const res=await fetch(url,{signal:controller.signal,credentials:'omit'});
+    if(!res.ok)throw new Error('Passage unavailable');
+    const data=await res.json();
+    const verses=Array.isArray(data.verses)?data.verses.map(({verse,text})=>({verse:Number(verse),text})):null;
+    if(!verses?.length||verses.some(v=>!Number.isInteger(v.verse)||typeof v.text!=='string'))throw new Error('No verses returned');
+    return {verses,provider};
+  }finally{clearTimeout(timeout);}
+}
+async function getText(ref){
+  const [,book,chapter,first,last]=ref.match(/^(.+) (\d+)(?::(\d+)-(\d+))?$/);
+  const key=book+' '+chapter;
+  if(!passageCache.has(key)){
+    const number=bookOrder.indexOf(book)+1;
+    const primary='https://bible-api.com/data/web/'+bookCodes[book]+'/'+chapter;
+    const alternate='https://api.getbible.net/v2/web/'+number+'/'+chapter+'.json';
+    const request=fetchChapter(primary,'Bible API').catch(()=>fetchChapter(alternate,'getBible')).catch(error=>{
+      passageCache.delete(key);throw error;
+    });
+    passageCache.set(key,request);
+  }
+  const {verses,provider}=await passageCache.get(key);
+  const excerpt=first?verses.filter(v=>v.verse>=Number(first)&&v.verse<=Number(last)):verses;
+  if(!excerpt.length)throw new Error('Verse range unavailable');
+  return {verses:excerpt.map(v=>({...v,book,chapter})),provider};
+}
+function devotionNav(current){
+  const steps=el('nav','devotion-steps');
+  steps.setAttribute('aria-label','Devotion steps');
+  for(const [label,step] of [['Wait',0],['Read',null],['W.O.R.D.',1],['World',5],['Review',6]]){
+    const button=action(label,()=>{
+      if(step===null)readAgain();
+      else{reader.step=step;reveal('reflect',false);}
+    },'soft');
+    if(current===step||(step===1&&current>=1&&current<=4))button.setAttribute('aria-current','step');
+    steps.append(button);
+  }
+  return steps;
+}
+function annotationRecord(draft,target){
+  if(target.isWord){
+    draft.wordNotes??={};
+    return draft.wordNotes[target.id]??={word:target.text,ref:target.ref,notes:{}};
+  }
+  draft.verseNotes??={};
+  return draft.verseNotes[target.id]??={ref:target.ref,notes:{}};
+}
+function categoryBadge(category){
+  const badge=el('span','category-badge',category.letter);
+  badge.dataset.category=category.letter;
+  return badge;
+}
+function labelCategory(button,item){
+  const copy=el('span','category-copy');
+  copy.append(el('strong','',item.name),el('span','category-description',item.description));
+  button.replaceChildren(categoryBadge(item),copy);
+  button.setAttribute('aria-label',item.name);
+}
+function fillAnnotationPanel(panel,target,paint){
+  const draft=readingDraft(), record=annotationRecord(draft,target);
+  const title=el('h3','word-heading',target.isWord?'“'+target.text+'”':target.ref);
+  title.tabIndex=-1;
+  panel.replaceChildren(title,target.isWord?el('p','metadata',target.ref):el('p','annotation-quote',target.text),
+    textRow('Choose one or more W.O.R.D. highlights.'));
+  const rows=el('div','annotation-options'), editor=el('div','annotation-editor');
+  const buttons=[];
+  const reset=action(target.isWord?'Clear word highlights':'Clear verse highlights',()=>{
+    const [first]=draft.marks[target.id]||[];
+    delete draft.marks[target.id];
+    saveNote(draft);paint();refresh();
+    if(first!==undefined)buttons[first].focus();
+  },'link-button clear-highlights');
+  function drawEditor(index){
+    const item=categories[index], label=el('label','',item.name+' reflection');
+    label.htmlFor='annotationNote';
+    const input=el('textarea','field full');
+    input.id='annotationNote';input.rows=3;input.value=record.notes[index]||'';
+    input.oninput=()=>{record.notes[index]=input.value;saveNote(draft);};
+    editor.dataset.category=item.letter;
+    editor.replaceChildren(label,textRow(item.prompt,'muted metadata'),input);
+    input.focus();
+  }
+  categories.forEach((item,i)=>{
+    const row=el('div','annotation-option');
+    const button=action(item.name,()=>{
+      const highlights=draft.marks[target.id]||[];
+      draft.marks[target.id]=highlights.includes(i)?highlights.filter(k=>k!==i):[...highlights,i].sort();
+      saveNote(draft);paint();refresh();
+    },'annotation-toggle');
+    labelCategory(button,item);
+    const note=iconAction('note','Reflect',()=>{
+      const highlights=draft.marks[target.id]||[];
+      if(!highlights.includes(i)&&!record.notes[i]){
+        draft.marks[target.id]=[...highlights,i].sort();
+        saveNote(draft);paint();refresh();
+      }
+      drawEditor(i);
+    },'link-button annotation-note');
+    note.setAttribute('aria-label','Write reflection for '+item.name);
+    buttons.push(button);
+    row.append(button,note);rows.append(row);
+  });
+  function refresh(){
+    const marks=draft.marks[target.id]||[];
+    for(const [i,button] of buttons.entries())button.setAttribute('aria-pressed',String(marks.includes(i)));
+    reset.hidden=!marks.length;
+  }
+  refresh();panel.append(rows,reset,editor);
+  const recent=Object.keys(record.notes).find(i=>record.notes[i]?.trim());
+  if(recent!==undefined)editor.append(textRow('Choose Reflect to reopen a note.','metadata'));
+  title.focus({preventScroll:true});
+}
+function paintAnnotation(trigger,marks,line){
+  const letters=marks.map(i=>categories[i].letter);
+  trigger.dataset.marks=letters.join('');
+  trigger.setAttribute('aria-pressed',String(Boolean(letters.length)));
+  trigger.style.setProperty('--highlights',letters.length
+    ?'linear-gradient(90deg,'+letters.map((letter,i)=>'var(--highlight-'+letter+') '+(i/letters.length*100)+'% '+((i+1)/letters.length*100)+'%').join(',')+')'
+    :'none');
+  if(line){
+    line.dataset.marked=String(Boolean(letters.length));
+    line.style.setProperty('--verse-highlight',letters.length?'var(--highlight-'+letters[0]+')':'transparent');
+  }
+}
+function renderReader(){
+  const turn=sequence, p=plans[reader.id], day=p.days[reader.index], ref=day.refs[reader.refIndex];
+  const root=el('div','desk-grid'), scripture=el('article','scripture-page'), top=el('div','reader-top');
+  const sidebar=el('aside','desk-sidebar'), wordPanel=el('div','word-panel');
+  let selectedTrigger;
+  function selectAnnotation(target,trigger,paint){
+    if(selectedTrigger)selectedTrigger.removeAttribute('data-selected');
+    selectedTrigger=trigger;
+    trigger.setAttribute('data-selected','true');
+    reader.selected=target;
+    if(window.matchMedia('(max-width: 51rem)').matches){
+      fillAnnotationPanel(openDialog('Highlight & reflect'),target,paint);
+    }else{
+      fillAnnotationPanel(wordPanel,target,paint);
+    }
+  }
+  const deskHeading=el('div','desk-heading');deskHeading.append(icon('note'),el('h2','','W.O.R.D. notes'));
+  const shortcuts=el('div','desk-shortcuts');
+  for(const [name,step,glyph] of [['Wait',0,'sun'],['World',5,'world'],['Review',6,'check']]){
+    shortcuts.append(iconAction(glyph,name,()=>{reader.step=step;reveal('reflect');},'soft'));
+  }
+  sidebar.append(deskHeading,wordPanel,shortcuts);
+  function showShortcuts(){
+    const categoriesList=el('div','desk-categories');
+    for(const [i,item] of categories.entries()){
+      const button=action(item.name,()=>{reader.step=i+1;reveal('reflect');},'desk-category');
+      labelCategory(button,item);categoriesList.append(button);
+    }
+    wordPanel.replaceChildren(textRow('Tap a word or verse number to highlight or reflect.'),categoriesList);
+  }
+  showShortcuts();
+  const heading=el('div','passage-heading'), label=el('p','passage-label');
+  label.append(icon('book'),document.createTextNode(reader.desk?'Daily reading':p.title+' · Day '+(reader.index+1)));
+  heading.append(label,el(reader.desk?'h2':'h1','passage-title',ref||'Catch-up day'));
+  top.append(heading);
+  if(day.refs.length>1){
+    const tabs=el('div','ref-tabs');
+    tabs.setAttribute('aria-label','Passages for this reading');
+    day.refs.forEach((chapter,i)=>{
+      const button=action(chapter,()=>{
+        reader.refIndex=i;reader.selected=null;reveal('reader',false);
+      },'soft');
+      button.setAttribute('aria-pressed',String(i===reader.refIndex));tabs.append(button);
+    });
+    top.append(tabs);
+  }
+  scripture.append(top);
+  if(!ref){
+    scripture.append(textRow('Use today to revisit a passage or finish a reading you missed.'));
+  }else{
+    const source=el('a','','World English Bible');
+    source.href='https://ebible.org/engwebp/';source.target='_blank';source.rel='noopener noreferrer';
+    const caption=el('p','metadata scripture-caption');
+    caption.append(source,document.createTextNode(' · Tap a word or verse number.'));
+    top.append(caption);
+    const verseBox=el('div','verses'), loading=el('p','muted','Loading Scripture…');
+    loading.setAttribute('role','status');verseBox.append(loading);scripture.append(verseBox);
+    getText(ref).then(({verses,provider})=>{
+      if(sequence!==turn)return;
+      source.title='Text provided by '+provider;
+      const draft=readingDraft(), fragment=document.createDocumentFragment();
+      for(const v of verses){
+        const text=v.text.trim(), base={id:ref+'#'+v.verse,ref:v.book+' '+v.chapter+':'+v.verse,text};
+        const verse=el('div','verse'), line=el('span','line');
+        const number=action(String(v.verse),()=>selectAnnotation(base,number,paintVerse),'verse-number');
+        const paintVerse=()=>paintAnnotation(number,draft.marks[base.id]||[],line);
+        number.setAttribute('aria-label','Highlight verse '+base.ref);
+        paintVerse();
+        const wordButtons=[];
+        let end=0;
+        for(const [i,match] of [...text.matchAll(/[\p{L}\p{N}]+(?:[’'\-][\p{L}\p{N}]+)*/gu)].entries()){
+          if(match.index>end)line.append(document.createTextNode(text.slice(end,match.index)));
+          const word={id:base.id+'@'+i,ref:base.ref,text:match[0],isWord:true};
+          const button=action(word.text,()=>selectAnnotation(word,button,paint),'scripture-word');
+          const paint=()=>paintAnnotation(button,draft.marks[word.id]||[]);
+          button.tabIndex=-1;
+          button.setAttribute('aria-label','Highlight '+word.text);
+          button.onkeydown=e=>{
+            const next=e.key==='ArrowRight'?wordButtons[i+1]:e.key==='ArrowLeft'?wordButtons[i-1]||number:null;
+            if(next){e.preventDefault();next.focus();}
+          };
+          paint();wordButtons.push(button);line.append(button);end=match.index+word.text.length;
+        }
+        number.onkeydown=e=>{if(e.key==='ArrowRight'&&wordButtons.length){e.preventDefault();wordButtons[0].focus();}};
+        if(end<text.length)line.append(document.createTextNode(text.slice(end)));
+        verse.append(number,line);fragment.append(verse);
+      }
+      verseBox.replaceChildren(fragment);
+    }).catch(()=>{
+      if(sequence!==turn)return;
+      const card=el('div','notice'), link=el('a','','Open '+ref+' in Bible Gateway');
+      link.href='https://www.biblegateway.com/passage/?search='+encodeURIComponent(ref)+'&version=WEB';
+      link.target='_blank';link.rel='noopener noreferrer';
+      card.append(textRow('Scripture could not load. Try again or open the passage in Bible Gateway.'),actions(action('Retry',()=>reveal('reader',false),'soft'),link));
+      verseBox.replaceChildren(card);
+    });
+  }
+  const bottom=el('div','reader-bottom');
+  const controls=actions(markButton('reader'));
+  if(ref){
+    controls.append(iconAction('note','Start a reflection',()=>{reader.selected=null;reader.step=0;reveal('reflect');},'soft'));
+  }
+  if(ref&&reader.refIndex<day.refs.length-1)controls.append(action('Next passage',()=>{reader.refIndex++;reader.selected=null;reveal('reader');},'soft'));
+  controls.append(iconAction('calendar','View plan',()=>previewPlan(reader.id,false,reader.index),'link-button'));
+  bottom.append(controls);scripture.append(bottom);
+  root.append(scripture);
+  if(ref)root.append(sidebar);
+  $('main').append(root);
+}
+function saveNote(draft){
+  draft.updatedAt=Date.now();
+  return saveDevice();
+}
+function journalSections(draft){
+  const sections=[['WAIT',[draft.feeling,draft.detail].filter(Boolean).join(' · '),draft.wait.trim()]];
+  const annotations=Object.entries({...draft.wordNotes,...draft.verseNotes});
+  categories.forEach((item,i)=>{
+    const refs=Object.entries(draft.marks).filter(([key,marks])=>!key.includes('@')&&!draft.verseNotes?.[key]&&marks.includes(i))
+      .map(([key])=>key.replace(/(:\d+-\d+)?#(\d+)$/,':$2'));
+    const annotated=annotations.flatMap(([key,record])=>{
+      const note=record.notes[i]?.trim();
+      if(!note&&!draft.marks[key]?.includes(i))return [];
+      const reference=record.word?'“'+record.word+'” · '+record.ref:record.ref;
+      return [note?reference+'\n'+note:reference];
+    });
+    sections.push([item.name.toUpperCase(),refs.join(', '),draft.notes[i].trim(),...annotated]);
+  });
+  sections.push(['WORLD',draft.world.trim()],['PRAYER',draft.names?.trim()]);
+  return sections.filter(section=>section.slice(1).some(Boolean));
+}
+function journalText(id,index,draft,included){
+  const title=plans[id].days[index].refs.join(' · ');
+  const sections=journalSections(draft).filter(([name])=>!included||included.has(name));
+  return ['TIME WITH GOD · '+title,...sections.map(section=>section.filter(Boolean).join('\n'))].join('\n\n');
+}
+async function copySummary(text){
+  try{await navigator.clipboard.writeText(text);notify('Copied devotion');}
+  catch{notify('Select the summary text to copy it.');}
+}
+function downloadDevotion(summary){
+  const url=URL.createObjectURL(new Blob([summary],{type:'text/plain;charset=utf-8'}));
+  const link=el('a');
+  link.href=url;link.download='Time-With-God-Devotion.txt';link.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+function shareDevotion(id,index,draft){
+  const body=openDialog('Share an excerpt');
+  const options=el('div','share-options'), preview=el('p','summary'), whatsapp=el('a','soft','Open WhatsApp');
+  whatsapp.target='_blank';whatsapp.rel='noopener noreferrer';
+  for(const [name] of journalSections(draft)){
+    const box=el('input','checkbox'), label=el('label');
+    box.type='checkbox';box.value=name;box.checked=name==='WORSHIP'||name==='WORLD';
+    label.append(box,document.createTextNode(name));options.append(label);
+  }
+  function refresh(){
+    const included=new Set(Array.from(options.querySelectorAll('input:checked'),input=>input.value));
+    preview.textContent=journalText(id,index,draft,included);
+    whatsapp.href='https://wa.me/?text='+encodeURIComponent(preview.textContent);
+  }
+  options.onchange=refresh;
+  body.append(textRow('Choose the sections to share.'),options,preview,
+    actions(action('Copy excerpt',()=>copySummary(preview.textContent),'soft'),whatsapp));
+  refresh();
+}
+function renderReflection(){
+  const d=readingDraft(), root=el('article','reader'), day=plans[reader.id].days[reader.index];
+  const card=el('section','write'), step=reader.step;
+  card.dataset.tone=['wait','w','o','r','d','world','review'][step];
+  root.append(action('Continue reading',readAgain,'link-button'),el('p','label',day.refs.join(' · ')),devotionNav(step));
+  if(reader.selected)card.append(el('p','quote',reader.selected.ref+' · '+reader.selected.text));
+  let label,current,update;
+  if(step===0){
+    card.append(el('p','label','WAIT'),el('h2','','What are you carrying today?'),textRow('Pause and bring it before God.'));
+    const tools=el('div','wait-tools'), wheel=el('div','wheel'), choices=el('div');
+    wheel.setAttribute('aria-hidden','true');wheel.append(el('span','','Feelings'));
+    const main=el('div','feelings'), details=el('div','feelings');
+    main.setAttribute('role','group');main.setAttribute('aria-label','Emotions');
+    details.setAttribute('role','group');details.setAttribute('aria-label','More specific emotions');
+    function choicesFor(row,field,values){
+      row.replaceChildren(...values.map(value=>{
+        const button=action(value,()=>{
+          d[field]=d[field]===value?'':value;
+          if(field==='feeling')d.detail='';
+          saveNote(d);drawChoices();
+          Array.from(row.children).find(choice=>choice.textContent===value)?.focus({preventScroll:true});
+        },'soft feeling');
+        button.setAttribute('aria-pressed',String(d[field]===value));
+        return button;
+      }));
+    }
+    function drawChoices(){
+      choicesFor(main,'feeling',Object.keys(emotions));
+      choicesFor(details,'detail',emotions[d.feeling]||[]);
+    }
+    drawChoices();choices.append(main,details);tools.append(wheel,choices);card.append(tools);
+    label='What would you like to bring before God?';current=d.wait;update=text=>d.wait=text;
+  }else if(step<=4){
+    const item=categories[step-1], heading=el('h2',''), badge=el('span','symbol',item.letter);
+    badge.style.setProperty('--mark-color',item.color);
+    heading.append(badge,document.createTextNode(item.name));
+    card.append(el('p','label','W.O.R.D. · '+step+' of 4'),heading,textRow(item.prompt));
+    label='Your '+item.name.toLowerCase()+' reflection';current=d.notes[step-1];update=text=>d.notes[step-1]=text;
+  }else if(step===5){
+    card.append(el('p','label','WORLD'),el('h2','','What will you do with what you read?'),
+      textRow('Think of one person, one action, and when you’ll do it.'));
+    label='My practical commitment';current=d.world;update=text=>d.world=text;
+  }else{
+    const summary=journalText(reader.id,reader.index,d);
+    card.append(el('h2','','Your devotion'),el('p','summary',summary));
+    card.append(actions(action('Save devotion',()=>{
+      d.finished=true;const saved=saveNote(d);reveal('journal');
+      notify(saved?'Devotion saved in this browser':'Devotion kept for this session');
+    }),action('Copy devotion',()=>copySummary(summary),'soft'),
+      action('Download .txt',()=>downloadDevotion(summary),'soft'),
+      action('Share excerpt',()=>shareDevotion(reader.id,reader.index,d),'soft'),markButton('reflect')));
+    root.append(card);$('main').append(root);return;
+  }
+  const stack=el('div','stack'), labelEl=el('label','',label), textarea=el('textarea','field full');
+  textarea.id='note';textarea.rows=3;textarea.value=current;labelEl.htmlFor='note';
+  textarea.oninput=()=>{update(textarea.value);saveNote(d);};
+  stack.append(labelEl,textarea);card.append(stack);
+  if(step===5){
+    const prayer=el('div','stack'), prayerLabel=el('label','','Who would you like to pray for? (Optional)'),
+      names=el('input','field full');
+    names.id='prayerNames';prayerLabel.htmlFor=names.id;names.value=d.names||'';
+    names.oninput=()=>{d.names=names.value;saveNote(d);};
+    prayer.append(prayerLabel,names);card.append(prayer);
+  }
+  const controls=actions();
+  if(step>0&&step<=4&&reader.selected){
+    const selected=reader.selected, marks=d.marks[selected.id]||[], i=step-1;
+    controls.append(action(marks.includes(i)?'Remove verse mark':'Underline verse',()=>{
+      d.marks[selected.id]=marks.includes(i)?marks.filter(n=>n!==i):[...marks,i];
+      saveNote(d);reveal('reflect',false);
+    },'soft'));
+  }
+  controls.append(action(step===0?'Continue to W.O.R.D.':step===4?'Go to World':step===5?'Review devotion':'Next prompt',()=>{
+    reader.step++;reveal('reflect',false);
+    $('note')?.focus();
+  }));
+  if(step>0)controls.append(action('Previous prompt',()=>{reader.step--;reveal('reflect',false);},'link-button'));
+  card.append(controls);root.append(card);$('main').append(root);
+}
+function renderJournal(){
+  const entries=Object.entries(profile().journal).filter(([,entry])=>entry.finished).sort((a,b)=>b[1].updatedAt-a[1].updatedAt);
+  page(null,'Journal','Entries are saved in this browser.');
+  if(!entries.length){const card=el('section','card');card.append(el('h2','','Your journal is empty'),textRow('Open a reading and save your first reflection.'));$('main').append(card);return;}
+  const grid=el('div','grid');
+  for(const [key,draft] of entries){
+    const [id,index]=key.split('__');
+    if(!plans[id]?.days[index])continue;
+    const title=plans[id].days[index].refs.join(' · '), card=el('article','card');
+    card.append(el('h2','',title),actions(action('Open devotion',()=>{
+      const body=openDialog(title), summary=journalText(id,index,draft);
+      body.append(el('p','summary',summary),actions(
+        action('Open reading and draft',()=>{$('dialog').close();openDay(id,Number(index));}),
+        action('Copy devotion',()=>copySummary(summary),'soft'),
+        action('Download .txt',()=>downloadDevotion(summary),'soft'),
+        action('Share excerpt',()=>shareDevotion(id,Number(index),draft),'soft')));
+    },'soft')));
+    grid.append(card);
+  }
+  $('main').append(grid);
+}
+reveal('today',false);
+</script>
+</body>
+</html>
